@@ -6,41 +6,39 @@
 <title>Lisa Wood - Budget Dashboard</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.5}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#eef2f7;color:#1e293b;line-height:1.5}
 .header{background:linear-gradient(135deg,#1a2744 0%,#2d4a7a 100%);padding:24px 32px;color:#fff}
 .header h1{font-size:28px;font-weight:800;color:#f5922f;margin-bottom:4px}
 .header p{font-size:13px;color:rgba(255,255,255,0.7)}
 .wrap{max-width:1200px;margin:0 auto;padding:24px}
 
 /* Cards */
-.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04)}
-.card h2{font-size:18px;font-weight:700;color:#1a2744;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #f5922f}
+.card{background:#fff;border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;font-weight:700;color:#fff;margin:0 0 0 0;padding:16px 24px;background:linear-gradient(135deg,#1a2744,#2d4a7a)}
+.card > div,.card > details{padding:20px 24px}
+.card > details[open]{padding-bottom:24px}
 
 /* KPI strip */
 .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.kpi{border-radius:16px;padding:20px 24px;text-align:center}
-.kpi.orange{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fed7aa}
-.kpi.green{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #bbf7d0}
-.kpi.red{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:2px solid #fecaca}
-.kpi.blue{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #bfdbfe}
-.kpi .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px}
-.kpi .val{font-size:32px;font-weight:800;letter-spacing:-1px}
-.kpi.orange .val{color:#ea580c}
-.kpi.green .val{color:#16a34a}
-.kpi.red .val{color:#dc2626}
-.kpi.blue .val{color:#2563eb}
-.kpi .sub{font-size:11px;color:#94a3b8;margin-top:4px}
+.kpi{border-radius:16px;padding:22px 24px;text-align:center;color:#fff}
+.kpi.orange{background:linear-gradient(135deg,#f97316,#ea580c);border:none}
+.kpi.green{background:linear-gradient(135deg,#22c55e,#16a34a);border:none}
+.kpi.red{background:linear-gradient(135deg,#ef4444,#dc2626);border:none}
+.kpi.blue{background:linear-gradient(135deg,#3b82f6,#2563eb);border:none}
+.kpi .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.85);margin-bottom:6px}
+.kpi .val{font-size:32px;font-weight:800;letter-spacing:-1px;color:#fff}
+.kpi.orange .val,.kpi.green .val,.kpi.red .val,.kpi.blue .val{color:#fff}
+.kpi .sub{font-size:11px;color:rgba(255,255,255,0.75);margin-top:4px}
 
 /* Scenarios */
 .scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-.sc{border-radius:16px;padding:20px;text-align:center;border:2px solid}
-.sc.good{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac}
-.sc.bad{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:#fca5a5}
-.sc.ok{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-color:#fdba74}
-.sc .period{font-size:15px;font-weight:700;color:#1e293b;margin:4px 0 8px}
-.sc .detail{font-size:12px;color:#64748b;margin-bottom:2px}
-.sc .net{font-size:28px;font-weight:800;margin-top:10px}
-.sc.good .net{color:#16a34a} .sc.bad .net{color:#dc2626} .sc.ok .net{color:#ea580c}
+.sc{border-radius:16px;padding:22px;text-align:center;border:none;color:#fff}
+.sc.good{background:linear-gradient(135deg,#22c55e,#15803d)}
+.sc.bad{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.sc.ok{background:linear-gradient(135deg,#f97316,#c2410c)}
+.sc .period{font-size:15px;font-weight:700;color:#fff;margin:4px 0 8px}
+.sc .detail{font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:2px}
+.sc .net{font-size:28px;font-weight:800;margin-top:10px;color:#fff}
 
 /* Two column */
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
@@ -49,7 +47,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 /* Tables */
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:#f8fafc;color:#64748b;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid #e2e8f0}
+th{background:#1a2744;color:#fff;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:none}
 td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
 tr:hover td{background:#fffbf5}
 
@@ -69,7 +67,7 @@ tr:hover td{background:#fffbf5}
 details{margin-bottom:0}
 details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
 details summary::-webkit-details-marker{display:none}
-details summary::after{content:"\25BC";font-size:12px;color:#94a3b8;transition:transform .2s}
+details summary::after{content:"\25BC";font-size:12px;color:rgba(255,255,255,0.7);transition:transform .2s}
 details[open] summary::after{transform:rotate(180deg)}
 </style>
 </head>
@@ -86,8 +84,8 @@ details[open] summary::after{transform:rotate(180deg)}
 <div class="kpi-strip">
     <div class="kpi green">
         <div class="label">Monthly Income (Avg)</div>
-        <div class="val">$22,758</div>
-        <div class="sub">149 deposits / 14 months</div>
+        <div class="val">$19,426</div>
+        <div class="sub">Excl. one-time items ($46,648)</div>
     </div>
     <div class="kpi red">
         <div class="label">Monthly Spending (Avg)</div>
@@ -114,16 +112,16 @@ details[open] summary::after{transform:rotate(180deg)}
         <div class="period">March &ndash; May 2026</div>
         <div class="detail">Gersaw $10k + Elevate $4.2k</div>
         <div class="detail">Stafftopia $2.75k + WFCS $1.5k + Rent $1.8k</div>
-        <div class="detail" style="font-weight:600;color:#334155;margin-top:6px">Income: $20,223/mo</div>
-        <div class="detail" style="font-weight:600;color:#334155">Expenses: $15,063/mo</div>
+        <div class="detail" style="font-weight:600;margin-top:6px">Income: $20,223/mo</div>
+        <div class="detail" style="font-weight:600">Expenses: $15,063/mo</div>
         <div class="net">+$5,160/mo</div>
     </div>
     <div class="sc bad">
         <div class="sec-label" style="margin-bottom:4px">Scenario B &mdash; June Cliff</div>
         <div class="period">June+ (No Gersaw, No Elevate)</div>
         <div class="detail">Stafftopia $2.75k + WFCS $1.5k + Rent $1.8k</div>
-        <div class="detail" style="font-weight:600;color:#334155;margin-top:6px">Income: $6,050/mo</div>
-        <div class="detail" style="font-weight:600;color:#334155">Expenses: $15,063/mo</div>
+        <div class="detail" style="font-weight:600;margin-top:6px">Income: $6,050/mo</div>
+        <div class="detail" style="font-weight:600">Expenses: $15,063/mo</div>
         <div class="net">$-9,013/mo</div>
     </div>
     <div class="sc ok">
@@ -131,8 +129,8 @@ details[open] summary::after{transform:rotate(180deg)}
         <div class="period">June+ (With Gersaw)</div>
         <div class="detail">Gersaw $10k + Stafftopia $2.75k</div>
         <div class="detail">WFCS $1.5k + Rent $1.8k</div>
-        <div class="detail" style="font-weight:600;color:#334155;margin-top:6px">Income: $16,050/mo</div>
-        <div class="detail" style="font-weight:600;color:#334155">Expenses: $15,063/mo</div>
+        <div class="detail" style="font-weight:600;margin-top:6px">Income: $16,050/mo</div>
+        <div class="detail" style="font-weight:600">Expenses: $15,063/mo</div>
         <div class="net">+$987/mo</div>
     </div>
 </div>
@@ -170,8 +168,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Insurance (Safeco, BC, Dental, Pet)</span>
             <strong style="color:#dc2626;font-size:14px">$2,840/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:74%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:74%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -179,8 +177,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Kohler (Housing $860 + Salary $1k + CC $2k)</span>
             <strong style="color:#dc2626;font-size:14px">$3,860/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:100%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:100%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -188,8 +186,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Phone / Internet / Cable</span>
             <strong style="color:#dc2626;font-size:14px">$528/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:14%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:14%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -197,8 +195,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Subscriptions & AI</span>
             <strong style="color:#dc2626;font-size:14px">$1,152/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:30%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:30%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -206,8 +204,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Groceries</span>
             <strong style="color:#dc2626;font-size:14px">$924/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:24%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:24%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -215,8 +213,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Healthcare (excl. Alma)</span>
             <strong style="color:#dc2626;font-size:14px">$436/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:11%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:11%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -224,8 +222,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Travel</span>
             <strong style="color:#dc2626;font-size:14px">$2,158/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:56%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:56%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -233,8 +231,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Gas / Auto</span>
             <strong style="color:#dc2626;font-size:14px">$538/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:14%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:14%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -242,8 +240,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Dining Out</span>
             <strong style="color:#dc2626;font-size:14px">$693/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:18%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:18%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -251,8 +249,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Utilities</span>
             <strong style="color:#dc2626;font-size:14px">$521/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:13%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:13%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -260,8 +258,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Amazon / Online Shopping</span>
             <strong style="color:#dc2626;font-size:14px">$731/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:19%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:19%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -269,8 +267,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Investments (Robinhood + Acorns)</span>
             <strong style="color:#dc2626;font-size:14px">$82/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:2%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:2%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 <div style="margin-bottom:10px">
@@ -278,8 +276,8 @@ details[open] summary::after{transform:rotate(180deg)}
             <span style="font-size:13px;color:#334155">Other / Misc</span>
             <strong style="color:#dc2626;font-size:14px">$600/mo</strong>
         </div>
-        <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:16%;background:linear-gradient(90deg,#f97316,#dc2626);border-radius:4px"></div>
+        <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden">
+            <div style="height:100%;width:16%;background:linear-gradient(90deg,#f5922f,#ef4444);border-radius:5px"></div>
         </div>
     </div>
 
@@ -306,10 +304,10 @@ details[open] summary::after{transform:rotate(180deg)}
         <div class="elim-item"><span class="check">&#10003;</span><span><strong>Mortgage</strong> (Lane Ranch)</span><span class="saved">-$2,803/mo</span></div>
         <div class="elim-item"><span class="check">&#10003;</span><span><strong>Ram 1500</strong> (Westmark)</span><span class="saved">-$500/mo</span></div>
         <div class="elim-item"><span class="check">&#10003;</span><span><strong>Alma Chiro</strong> (Kohler)</span><span class="saved">-$150/mo</span></div>
-        <div style="margin-top:16px;padding:14px;background:#f0fdf4;border-radius:12px;text-align:center">
-            <div style="font-size:12px;color:#16a34a;font-weight:700;text-transform:uppercase;letter-spacing:1px">Total Monthly Savings</div>
-            <div style="font-size:36px;font-weight:800;color:#16a34a">$3,453/mo</div>
-            <div style="font-size:13px;color:#64748b">$41,436/year</div>
+        <div style="margin-top:16px;padding:16px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:12px;text-align:center;color:#fff">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.85)">Total Monthly Savings</div>
+            <div style="font-size:36px;font-weight:800">$3,453/mo</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.8)">$41,436/year</div>
         </div>
     </div>
 </div>
@@ -317,8 +315,8 @@ details[open] summary::after{transform:rotate(180deg)}
 <!-- ══ SUBSCRIPTIONS ══ -->
 <div class="card">
     <details open>
-    <summary><h2 style="display:inline">Subscriptions & AI ($1,152/mo | $16,124 total)</h2></summary>
-    <div style="overflow-x:auto;margin-top:12px">
+    <summary style="background:linear-gradient(135deg,#1a2744,#2d4a7a);padding:16px 24px;cursor:pointer"><h2 style="display:inline;padding:0;margin:0">Subscriptions & AI ($1,152/mo | $16,124 total)</h2></summary>
+    <div style="overflow-x:auto;padding:20px 24px">
     <table>
         <tr><th>Service</th><th>Monthly Avg</th><th>Total Spent</th><th>Last Charge</th><th>Status</th></tr>
         <tr>
@@ -484,8 +482,8 @@ details[open] summary::after{transform:rotate(180deg)}
 <!-- ══ MONTHLY INCOME VS EXPENSES ══ -->
 <div class="card">
     <details open>
-    <summary><h2 style="display:inline">Monthly Income vs Expenses</h2></summary>
-    <div style="overflow-x:auto;margin-top:12px">
+    <summary style="background:linear-gradient(135deg,#1a2744,#2d4a7a);padding:16px 24px;cursor:pointer"><h2 style="display:inline;padding:0;margin:0">Monthly Income vs Expenses</h2></summary>
+    <div style="overflow-x:auto;padding:20px 24px">
     <table>
         <tr><th>Month</th><th>Income</th><th>Expenses</th><th>Net</th></tr>
         <tr>
@@ -582,8 +580,8 @@ details[open] summary::after{transform:rotate(180deg)}
 <div class="row2">
     <div class="card">
         <details>
-        <summary><h2 style="display:inline">All Expense Categories</h2></summary>
-        <div style="overflow-x:auto;margin-top:12px">
+        <summary style="background:linear-gradient(135deg,#1a2744,#2d4a7a);padding:16px 24px;cursor:pointer"><h2 style="display:inline;padding:0;margin:0">All Expense Categories</h2></summary>
+        <div style="overflow-x:auto;padding:20px 24px">
         <table>
             <tr><th>Category</th><th>Total</th><th>Monthly</th><th>Txns</th></tr>
             <tr>
@@ -815,8 +813,8 @@ details[open] summary::after{transform:rotate(180deg)}
     </div>
     <div class="card">
         <details>
-        <summary><h2 style="display:inline">Top 20 Merchants</h2></summary>
-        <div style="overflow-x:auto;margin-top:12px">
+        <summary style="background:linear-gradient(135deg,#1a2744,#2d4a7a);padding:16px 24px;cursor:pointer"><h2 style="display:inline;padding:0;margin:0">Top 20 Merchants</h2></summary>
+        <div style="overflow-x:auto;padding:20px 24px">
         <table>
             <tr><th>#</th><th>Merchant</th><th>Total</th><th>Txns</th></tr>
             <tr>
@@ -949,8 +947,8 @@ details[open] summary::after{transform:rotate(180deg)}
 <!-- ══ ACCOUNTS ══ -->
 <div class="card">
     <details>
-    <summary><h2 style="display:inline">By Account</h2></summary>
-    <div style="overflow-x:auto;margin-top:12px">
+    <summary style="background:linear-gradient(135deg,#1a2744,#2d4a7a);padding:16px 24px;cursor:pointer"><h2 style="display:inline;padding:0;margin:0">By Account</h2></summary>
+    <div style="overflow-x:auto;padding:20px 24px">
     <table>
         <tr><th>Account</th><th>Total Expenses</th><th>Total Income</th><th>Transactions</th></tr>
         <tr>
