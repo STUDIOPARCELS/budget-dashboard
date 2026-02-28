@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lisa Wood - Financial Dashboard 2026</title>
+<title>Lisa Wood - 2026 Budget Calendar</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -16,334 +16,355 @@
   }
 
   header {
-    background: linear-gradient(135deg, #1a2744 0%, #1e3a5f 100%);
-    padding: 32px;
+    background: linear-gradient(135deg, #1a2744, #1e3a5f);
+    padding: 28px 32px;
     text-align: center;
     border-bottom: 4px solid #f5922f;
   }
 
-  header h1 {
-    font-size: 32px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 4px;
-  }
+  header h1 { font-size: 28px; font-weight: 800; }
+  header p { color: #94a3b8; font-size: 15px; margin-top: 4px; }
 
-  header p {
-    color: #94a3b8;
-    font-size: 16px;
-  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px 20px;
-  }
-
-  /* ========== BIG NUMBER CARDS ========== */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
-  .kpi {
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-  }
-
-  .kpi .kpi-label {
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 8px;
-    opacity: 0.9;
-  }
-
-  .kpi .kpi-number {
-    font-size: 44px;
-    font-weight: 900;
-    line-height: 1.1;
-  }
-
-  .kpi .kpi-sub {
-    font-size: 15px;
-    margin-top: 6px;
-    opacity: 0.8;
-  }
-
-  .kpi-green { background: #16a34a; color: white; }
-  .kpi-red { background: #dc2626; color: white; }
-  .kpi-orange { background: #d97706; color: white; }
-  .kpi-blue { background: #2563eb; color: white; }
-
-  /* ========== SECTION HEADERS ========== */
-  .section {
-    margin-bottom: 28px;
-  }
-
-  .section-title {
+  /* ===== INCOME PHASES ===== */
+  .phase-title {
     font-size: 22px;
     font-weight: 800;
     color: #f5922f;
     border-bottom: 3px solid #f5922f;
     padding-bottom: 8px;
-    margin-bottom: 16px;
+    margin: 32px 0 16px;
   }
 
-  .section-title span {
-    float: right;
-    color: white;
-    font-size: 18px;
-  }
+  .phase-title:first-of-type { margin-top: 0; }
 
-  /* ========== TABLES ========== */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 16px;
-    font-size: 15px;
-  }
-
-  thead th {
-    background: #1e3a5f;
-    color: #f5922f;
-    padding: 12px 14px;
-    text-align: left;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  thead th:last-child,
-  thead th.right { text-align: right; }
-
-  tbody td {
-    padding: 10px 14px;
-    border-bottom: 1px solid #1e293b;
-    color: #e2e8f0;
-  }
-
-  tbody td:last-child { text-align: right; font-weight: 700; color: white; }
-
-  tbody tr:hover { background: #1e293b; }
-
-  .row-total td {
-    background: #1e3a5f !important;
-    font-weight: 900 !important;
-    font-size: 17px;
-    color: white !important;
-    border-top: 3px solid #f5922f;
-  }
-
-  .row-sub td {
-    background: #162032;
-    font-weight: 700 !important;
-    color: #94a3b8 !important;
-  }
-
-  .row-sub td:last-child { color: white !important; }
-
-  .row-highlight { background: rgba(245, 146, 47, 0.1) !important; }
-
-  .row-cancel td { background: rgba(220, 38, 38, 0.15) !important; }
-
-  /* ========== TAGS ========== */
-  .tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 3px 10px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .tag-green { background: #16a34a; color: white; }
-  .tag-blue { background: #2563eb; color: white; }
-  .tag-yellow { background: #d97706; color: white; }
-  .tag-red { background: #dc2626; color: white; }
-  .tag-purple { background: #7c3aed; color: white; }
-
-  /* ========== SCENARIO BOXES ========== */
-  .scenarios {
+  .income-phases {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 
-  .scenario-box {
+  .phase-card {
     border-radius: 12px;
-    padding: 24px 20px;
+    padding: 20px;
     text-align: center;
+    color: white;
   }
 
-  .scenario-box h3 {
+  .phase-card .phase-label {
     font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 8px;
     opacity: 0.9;
+    margin-bottom: 4px;
   }
 
-  .scenario-box .big-num {
+  .phase-card .phase-amount {
     font-size: 36px;
     font-weight: 900;
   }
 
-  .scenario-box p {
+  .phase-card .phase-detail {
     font-size: 13px;
-    margin-top: 6px;
     opacity: 0.8;
+    margin-top: 6px;
   }
 
-  /* ========== NOTES ========== */
-  .note {
+  .phase-breakdown {
     background: #1e293b;
-    border-left: 4px solid #f5922f;
-    padding: 14px 18px;
-    margin: 12px 0 20px;
-    border-radius: 0 8px 8px 0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
     font-size: 14px;
-    color: #cbd5e1;
   }
 
-  .note strong { color: #f5922f; }
-
-  .alert {
-    background: rgba(220, 38, 38, 0.15);
-    border-left: 4px solid #dc2626;
-    padding: 14px 18px;
-    margin: 12px 0 20px;
-    border-radius: 0 8px 8px 0;
-    font-size: 14px;
-    color: #fca5a5;
+  .phase-breakdown h3 {
+    color: #f5922f;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
-  .alert strong { color: #ef4444; }
-
-  .good {
-    background: rgba(22, 163, 74, 0.15);
-    border-left: 4px solid #16a34a;
-    padding: 14px 18px;
-    margin: 12px 0 20px;
-    border-radius: 0 8px 8px 0;
-    font-size: 14px;
-    color: #86efac;
-  }
-
-  .good strong { color: #22c55e; }
-
-  /* ========== CASHFLOW TABLE ========== */
-  .cf-positive { color: #4ade80 !important; }
-  .cf-negative { color: #f87171 !important; }
-
-  /* ========== SAVINGS LIST ========== */
-  .savings-row {
+  .pb-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid #1e293b;
+    padding: 6px 0;
+    border-bottom: 1px solid #334155;
   }
 
-  .savings-row:last-child { border-bottom: none; }
+  .pb-row:last-child { border-bottom: none; }
+  .pb-row .pb-label { color: #94a3b8; }
+  .pb-row .pb-val { font-weight: 700; color: white; }
+  .pb-row.pb-total { border-top: 2px solid #f5922f; padding-top: 10px; margin-top: 4px; }
+  .pb-row.pb-total .pb-label { color: white; font-weight: 800; font-size: 16px; }
+  .pb-row.pb-total .pb-val { font-size: 18px; font-weight: 900; }
 
-  .savings-name { font-weight: 700; font-size: 16px; }
-  .savings-desc { font-size: 13px; color: #94a3b8; }
-  .savings-amt { font-weight: 900; font-size: 18px; color: #4ade80; white-space: nowrap; }
-
-  .savings-total {
-    background: #16a34a;
+  /* ===== BIG BILLS CALENDAR ===== */
+  .big-bills {
+    background: #1e293b;
     border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .big-bills h3 {
+    color: #f5922f;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .bill-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #334155;
+  }
+
+  .bill-item:last-child { border-bottom: none; }
+
+  .bill-month {
+    background: #f5922f;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .bill-desc { flex: 1; }
+  .bill-name { font-weight: 700; font-size: 15px; }
+  .bill-detail { font-size: 12px; color: #94a3b8; }
+  .bill-amt { font-weight: 900; font-size: 17px; color: #f87171; white-space: nowrap; }
+
+  /* ===== MONTH CARDS ===== */
+  .month-card {
+    background: #1e293b;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .month-header {
     padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  .savings-total .savings-name { font-size: 18px; }
-  .savings-total .savings-amt { font-size: 24px; color: white; }
+  .month-name {
+    font-size: 20px;
+    font-weight: 800;
+  }
 
-  /* ========== INTERACTIVE PLANNER ========== */
-  .planner-box {
+  .month-net {
+    font-size: 20px;
+    font-weight: 900;
+    padding: 4px 16px;
+    border-radius: 8px;
+  }
+
+  .net-positive { background: #16a34a; color: white; }
+  .net-negative { background: #dc2626; color: white; }
+  .net-warn { background: #d97706; color: white; }
+
+  .month-body {
+    padding: 0 20px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .month-col h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #334155;
+  }
+
+  .month-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 14px;
+  }
+
+  .month-line .ml-label { color: #cbd5e1; }
+  .month-line .ml-val { font-weight: 700; }
+  .ml-green { color: #4ade80; }
+  .ml-red { color: #f87171; }
+  .ml-blue { color: #60a5fa; }
+  .ml-orange { color: #fb923c; }
+
+  .month-line.ml-total {
+    border-top: 2px solid #475569;
+    margin-top: 6px;
+    padding-top: 8px;
+    font-weight: 800;
+    font-size: 15px;
+  }
+
+  .month-line.ml-total .ml-label { color: white; }
+
+  .month-line.ml-big {
+    background: rgba(248, 113, 113, 0.1);
+    margin: 2px -8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .month-line.ml-hoped {
+    background: rgba(96, 165, 250, 0.1);
+    margin: 2px -8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .month-alert {
+    grid-column: 1 / -1;
+    background: rgba(220, 38, 38, 0.15);
+    border-left: 3px solid #dc2626;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #fca5a5;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .month-note {
+    grid-column: 1 / -1;
+    background: rgba(96, 165, 250, 0.1);
+    border-left: 3px solid #3b82f6;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #93c5fd;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .month-good {
+    grid-column: 1 / -1;
+    background: rgba(74, 222, 128, 0.1);
+    border-left: 3px solid #16a34a;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #86efac;
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* ===== CUMULATIVE TRACKER ===== */
+  .cumulative {
     background: #1e293b;
     border-radius: 12px;
-    padding: 24px;
-    margin-top: 20px;
+    padding: 20px;
+    margin: 24px 0;
   }
 
-  .planner-box h3 {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 16px;
+  .cumulative h3 {
     color: #f5922f;
+    font-size: 18px;
+    margin-bottom: 12px;
   }
 
-  .toggle-row {
+  .cum-bar-row {
     display: flex;
     align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .cum-month {
+    width: 40px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-align: right;
+  }
+
+  .cum-bar-track {
+    flex: 1;
+    height: 28px;
+    background: #334155;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cum-bar {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    min-width: 60px;
+    transition: width 0.5s;
+  }
+
+  .cum-bar-neg { background: linear-gradient(90deg, #dc2626, #ef4444); }
+  .cum-bar-pos { background: linear-gradient(90deg, #16a34a, #22c55e); }
+  .cum-bar-mid { background: linear-gradient(90deg, #d97706, #f59e0b); }
+
+  .cum-val {
+    width: 90px;
+    text-align: right;
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  .cum-neg { color: #f87171; }
+  .cum-pos { color: #4ade80; }
+
+  /* ===== ANNUAL SUMMARY ===== */
+  .annual-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid #334155;
-    cursor: pointer;
+    margin: 24px 0;
   }
 
-  .toggle-row:last-of-type { border-bottom: none; }
-
-  .toggle-row input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    accent-color: #f5922f;
-    cursor: pointer;
-  }
-
-  .toggle-label { font-weight: 700; font-size: 16px; }
-  .toggle-desc { font-size: 13px; color: #94a3b8; }
-
-  .result-display {
-    margin-top: 20px;
-    padding: 28px;
+  .summary-box {
     border-radius: 12px;
+    padding: 24px;
     text-align: center;
-    transition: background 0.3s;
+    color: white;
   }
 
-  .result-display .result-label {
+  .summary-box .sb-label {
     font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     opacity: 0.9;
-    margin-bottom: 8px;
   }
 
-  .result-display .result-number {
-    font-size: 52px;
+  .summary-box .sb-num {
+    font-size: 40px;
     font-weight: 900;
+    margin: 6px 0;
   }
 
-  .result-display .result-sub {
-    font-size: 15px;
-    margin-top: 6px;
+  .summary-box .sb-detail {
+    font-size: 14px;
     opacity: 0.8;
   }
 
-  /* ========== RESPONSIVE ========== */
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .kpi-row { grid-template-columns: 1fr; }
-    .kpi .kpi-number { font-size: 36px; }
-    .scenarios { grid-template-columns: 1fr; }
-    header h1 { font-size: 24px; }
-    .section-title { font-size: 18px; }
-    .section-title span { float: none; display: block; font-size: 16px; }
-    table { font-size: 13px; }
-    thead th, tbody td { padding: 8px 10px; }
+    .income-phases { grid-template-columns: 1fr; }
+    .annual-summary { grid-template-columns: 1fr; }
+    .month-body { grid-template-columns: 1fr; }
+    .phase-card .phase-amount { font-size: 28px; }
+    .summary-box .sb-num { font-size: 30px; }
   }
 
   footer {
@@ -359,369 +380,462 @@
 <body>
 
 <header>
-  <h1>Lisa Wood &mdash; Financial Dashboard</h1>
-  <p>As of February 28, 2026 &bull; All figures annualized unless noted</p>
+  <h1>2026 Budget Calendar</h1>
+  <p>Lisa Wood &bull; Month-by-month income, big bills, and cash flow</p>
 </header>
 
 <div class="container">
 
-  <!-- ==================== KPI CARDS ==================== -->
-  <div class="kpi-row">
-    <div class="kpi kpi-green">
-      <div class="kpi-label">Confirmed Monthly Income</div>
-      <div class="kpi-number">$8,893</div>
-      <div class="kpi-sub">$106,716 per year</div>
-    </div>
-    <div class="kpi kpi-red">
-      <div class="kpi-label">Monthly Expenses</div>
-      <div class="kpi-number">$15,272</div>
-      <div class="kpi-sub">$183,264 per year</div>
-    </div>
-    <div class="kpi kpi-orange">
-      <div class="kpi-label">Monthly Shortfall</div>
-      <div class="kpi-number">-$6,379</div>
-      <div class="kpi-sub">-$76,548 per year</div>
-    </div>
-    <div class="kpi kpi-blue">
-      <div class="kpi-label">Possible Extra Income</div>
-      <div class="kpi-number">$70,000</div>
-      <div class="kpi-sub">Friend $40k + Hotel Deal $30k</div>
-    </div>
-  </div>
+<!-- ============================= -->
+<!-- YOUR INCOME & WHEN IT CHANGES -->
+<!-- ============================= -->
+<div class="phase-title">Your Income &mdash; When It Changes</div>
 
-  <!-- ==================== INCOME ==================== -->
-  <div class="section">
-    <div class="section-title">Confirmed Income <span>$106,716 / year</span></div>
-    <table>
-      <thead><tr><th>Source</th><th>Status</th><th>Notes</th><th class="right">Monthly</th></tr></thead>
-      <tbody>
-        <tr><td>Rental Income (4 tenants)</td><td><span class="tag tag-green">Confirmed</span></td><td>Hailey, Boise, Ketchum duplex</td><td>$3,600</td></tr>
-        <tr><td>Stafftopia</td><td><span class="tag tag-green">Confirmed</span></td><td>Business income</td><td>$2,750</td></tr>
-        <tr><td>WFCS Distribution</td><td><span class="tag tag-green">Confirmed</span></td><td>Monthly distribution</td><td>$1,500</td></tr>
-        <tr><td>Jeff Rust Payment</td><td><span class="tag tag-yellow">Ends ~May</span></td><td>$4,172/mo, 3 months left</td><td>$4,172</td></tr>
-        <tr class="row-sub"><td colspan="3">Monthly total while Jeff Rust active</td><td>$12,022</td></tr>
-        <tr class="row-sub"><td colspan="3">Monthly total after Jeff Rust ends</td><td>$7,850</td></tr>
-        <tr class="row-total"><td colspan="3">Annual Confirmed Income</td><td>$106,716</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><strong>Key:</strong> Jeff Rust pays $4,172/mo for ~3 more months (through May 2026). After that, confirmed monthly income drops to $7,850.</div>
+<div class="income-phases">
+  <div class="phase-card" style="background:#d97706">
+    <div class="phase-label">Jan &ndash; Feb</div>
+    <div class="phase-amount">$7,850</div>
+    <div class="phase-detail">Base income only</div>
   </div>
-
-  <!-- ==================== POSSIBLE INCOME ==================== -->
-  <div class="section">
-    <div class="section-title">Possible / Hoped-For Income <span>$70,000</span></div>
-    <table>
-      <thead><tr><th>Source</th><th>Status</th><th>Timeline</th><th class="right">Amount</th></tr></thead>
-      <tbody>
-        <tr><td>Friend (Gersaw) Repayment</td><td><span class="tag tag-blue">Possible</span></td><td>$10,000/mo starting Mar 15 (4 months)</td><td>$40,000</td></tr>
-        <tr><td>Hotel Artwork Deal</td><td><span class="tag tag-blue">Possible</span></td><td>~$15k around Apr 15, ~$15k around Jun 15</td><td>$30,000</td></tr>
-        <tr class="row-total"><td colspan="3">Total Possible Extra Income</td><td>$70,000</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><strong>Note:</strong> These are NOT counted in the confirmed income. If both come through, the annual shortfall drops from -$76,548 to just -$6,548.</div>
+  <div class="phase-card" style="background:#16a34a">
+    <div class="phase-label">Mar &ndash; May</div>
+    <div class="phase-amount">$12,022</div>
+    <div class="phase-detail">+ Jeff Rust $4,172</div>
   </div>
-
-  <!-- ==================== EXPENSES ==================== -->
-  <div class="section">
-    <div class="section-title">Expenses Summary <span>$183,264 / year</span></div>
-    <table>
-      <thead><tr><th>Category</th><th>Type</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
-      <tbody>
-        <tr><td>Insurance (all policies)</td><td><span class="tag tag-purple">Fixed</span></td><td>$4,810</td><td>$57,719</td></tr>
-        <tr><td>Kohler Support</td><td><span class="tag tag-purple">Fixed</span></td><td>$3,860</td><td>$46,320</td></tr>
-        <tr><td>Subscriptions &amp; Services</td><td><span class="tag tag-yellow">Mixed</span></td><td>$2,800</td><td>$33,600</td></tr>
-        <tr><td>Dining &amp; Entertainment</td><td><span class="tag tag-red">Variable</span></td><td>$1,200</td><td>$14,400</td></tr>
-        <tr><td>Groceries &amp; Merchandise</td><td><span class="tag tag-red">Variable</span></td><td>$800</td><td>$9,600</td></tr>
-        <tr><td>Property Taxes</td><td><span class="tag tag-purple">Fixed</span></td><td>$607</td><td>$7,287</td></tr>
-        <tr><td>Gas &amp; Auto</td><td><span class="tag tag-red">Variable</span></td><td>$400</td><td>$4,800</td></tr>
-        <tr><td>Travel</td><td><span class="tag tag-red">Variable</span></td><td>$250</td><td>$3,000</td></tr>
-        <tr><td>Miscellaneous</td><td><span class="tag tag-red">Variable</span></td><td>$545</td><td>$6,538</td></tr>
-        <tr class="row-total"><td colspan="2">TOTAL EXPENSES</td><td>$15,272</td><td>$183,264</td></tr>
-      </tbody>
-    </table>
-    <div class="alert"><strong>The big three:</strong> Insurance ($57.7k) + Kohler Support ($46.3k) + Subscriptions ($33.6k) = $137,639/yr — that's 75% of all expenses.</div>
+  <div class="phase-card" style="background:#dc2626">
+    <div class="phase-label">Jun &ndash; Dec</div>
+    <div class="phase-amount">$7,850</div>
+    <div class="phase-detail">Jeff Rust ends</div>
   </div>
+</div>
 
-  <!-- ==================== SCENARIOS ==================== -->
-  <div class="section">
-    <div class="section-title">2026 Scenarios</div>
-    <div class="scenarios">
-      <div class="scenario-box" style="background:#dc2626; color:white">
-        <h3>Base Case</h3>
-        <div class="big-num">-$76,548</div>
-        <p>Confirmed income only</p>
-      </div>
-      <div class="scenario-box" style="background:#2563eb; color:white">
-        <h3>+ Friend Repay ($40k)</h3>
-        <div class="big-num">-$36,548</div>
-        <p>Gersaw pays $10k/mo</p>
-      </div>
-      <div class="scenario-box" style="background:#16a34a; color:white">
-        <h3>+ Friend + Hotel ($70k)</h3>
-        <div class="big-num">-$6,548</div>
-        <p>Both deals come through</p>
-      </div>
+<div class="phase-breakdown">
+  <h3>Confirmed Income Breakdown</h3>
+  <div class="pb-row"><span class="pb-label">Rental Income (Hailey, Ketchum duplex)</span><span class="pb-val">$3,600/mo</span></div>
+  <div class="pb-row"><span class="pb-label">Stafftopia</span><span class="pb-val">$2,750/mo</span></div>
+  <div class="pb-row"><span class="pb-label">WFCS Distribution</span><span class="pb-val">$1,500/mo</span></div>
+  <div class="pb-row pb-total"><span class="pb-label">Base Monthly Income</span><span class="pb-val" style="color:#4ade80">$7,850</span></div>
+  <div class="pb-row"><span class="pb-label">Jeff Rust (Mar &ndash; May only)</span><span class="pb-val">+$4,172/mo</span></div>
+  <div class="pb-row pb-total"><span class="pb-label">With Jeff Rust (Mar-May)</span><span class="pb-val" style="color:#4ade80">$12,022</span></div>
+</div>
+
+<div class="phase-breakdown">
+  <h3>Hoped-For Income (Not Guaranteed)</h3>
+  <div class="pb-row"><span class="pb-label">Gersaw Repayment &mdash; $10k/mo, Mar through Jun</span><span class="pb-val" style="color:#60a5fa">$40,000</span></div>
+  <div class="pb-row"><span class="pb-label">Hotel Artwork Deal &mdash; ~$15k Apr, ~$15k Jun</span><span class="pb-val" style="color:#60a5fa">$30,000</span></div>
+  <div class="pb-row pb-total"><span class="pb-label">Total Hoped-For</span><span class="pb-val" style="color:#60a5fa">$70,000</span></div>
+</div>
+
+<!-- ============================= -->
+<!-- BIG BILLS CALENDAR            -->
+<!-- ============================= -->
+<div class="phase-title">Big Bills Calendar &mdash; When They Hit</div>
+
+<div class="big-bills">
+  <h3>Quarterly Insurance (~$14,430 per quarter)</h3>
+  <div class="bill-item">
+    <span class="bill-month">JAN</span>
+    <div class="bill-desc"><div class="bill-name">Insurance Q1</div><div class="bill-detail">Health (Lisa $3,300 + Kohler $1,350), Auto $1,800, Mom $1,125, Life $1,050, Dental $360, and more</div></div>
+    <span class="bill-amt">$14,430</span>
+  </div>
+  <div class="bill-item">
+    <span class="bill-month">APR</span>
+    <div class="bill-desc"><div class="bill-name">Insurance Q2</div><div class="bill-detail">All homeowners, umbrella, business liability, flood, earthquake, cyber, etc.</div></div>
+    <span class="bill-amt">$14,430</span>
+  </div>
+  <div class="bill-item">
+    <span class="bill-month">JUL</span>
+    <div class="bill-desc"><div class="bill-name">Insurance Q3</div><div class="bill-detail">Same quarterly rotation</div></div>
+    <span class="bill-amt">$14,430</span>
+  </div>
+  <div class="bill-item">
+    <span class="bill-month">OCT</span>
+    <div class="bill-desc"><div class="bill-name">Insurance Q4</div><div class="bill-detail">Same quarterly rotation</div></div>
+    <span class="bill-amt">$14,430</span>
+  </div>
+</div>
+
+<div class="big-bills">
+  <h3>Property Taxes (~$7,287/yr, 2 installments)</h3>
+  <div class="bill-item">
+    <span class="bill-month">JUN</span>
+    <div class="bill-desc"><div class="bill-name">Property Tax &mdash; 1st Half</div><div class="bill-detail">All 4 properties: Bullion, Aspen, Ketchum, Boise</div></div>
+    <span class="bill-amt">$3,644</span>
+  </div>
+  <div class="bill-item">
+    <span class="bill-month">DEC</span>
+    <div class="bill-desc"><div class="bill-name">Property Tax &mdash; 2nd Half</div><div class="bill-detail">All 4 properties</div></div>
+    <span class="bill-amt">$3,644</span>
+  </div>
+</div>
+
+<div class="big-bills">
+  <h3>Ketchum Remodel ($13,435 total)</h3>
+  <div class="bill-item">
+    <span class="bill-month">APR</span>
+    <div class="bill-desc"><div class="bill-name">Remodel Deposit</div><div class="bill-detail">Roof, gutters &mdash; 50% upfront</div></div>
+    <span class="bill-amt">$6,700</span>
+  </div>
+  <div class="bill-item">
+    <span class="bill-month">SEP</span>
+    <div class="bill-desc"><div class="bill-name">Remodel Balance</div><div class="bill-detail">Paint, patch, final payment on completion</div></div>
+    <span class="bill-amt">$6,735</span>
+  </div>
+</div>
+
+<!-- ============================= -->
+<!-- MONTH BY MONTH                -->
+<!-- ============================= -->
+<div class="phase-title">Month-by-Month Budget</div>
+
+<p style="color:#94a3b8; margin-bottom:16px; font-size:14px">
+  Regular monthly expenses = $9,855 (Kohler $3,860 + Subscriptions/Utilities $2,800 + Dining $1,200 + Groceries $800 + Gas $400 + Travel $250 + Misc $545)
+</p>
+
+<!-- JANUARY -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">January 2026</div>
+    <div class="month-net net-negative">-$16,435</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Rental</span><span class="ml-val ml-green">$3,600</span></div>
+      <div class="month-line"><span class="ml-label">Stafftopia</span><span class="ml-val ml-green">$2,750</span></div>
+      <div class="month-line"><span class="ml-label">WFCS</span><span class="ml-val ml-green">$1,500</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
     </div>
-    <div class="alert"><strong>Critical:</strong> After Jeff Rust ends (~May), confirmed income drops to $7,850/mo vs $15,272/mo expenses = <strong>$7,422/mo gap</strong>. New income or major cuts needed.</div>
-  </div>
-
-  <!-- ==================== KOHLER SUPPORT ==================== -->
-  <div class="section">
-    <div class="section-title">Kohler Support <span>$46,320 / year</span></div>
-    <table>
-      <thead><tr><th>Item</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
-      <tbody>
-        <tr><td>Rent (Boise house equivalent)</td><td>$860</td><td>$10,320</td></tr>
-        <tr><td>Credit Card Payment</td><td>$2,000</td><td>$24,000</td></tr>
-        <tr><td>Stafftopia Salary (to Kohler)</td><td>$1,000</td><td>$12,000</td></tr>
-        <tr class="row-total"><td>TOTAL KOHLER</td><td>$3,860</td><td>$46,320</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><strong>Note:</strong> The $2,000/mo credit card is $24k/yr alone. Capping or reducing this is one of the biggest savings levers.</div>
-  </div>
-
-  <!-- ==================== SUBSCRIPTIONS ==================== -->
-  <div class="section">
-    <div class="section-title">Subscriptions &amp; Services <span>~$33,600 / year</span></div>
-    <table>
-      <thead><tr><th>Service</th><th>Category</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
-      <tbody>
-        <tr class="row-cancel"><td>Instacart+ Membership <span class="tag tag-red">CANCEL</span></td><td>Grocery Delivery</td><td>$99</td><td>$1,188</td></tr>
-        <tr><td>Gas/Heating (Ketchum)</td><td>Utilities</td><td>$250</td><td>$3,000</td></tr>
-        <tr><td>Claude AI (Anthropic)</td><td>AI Tools</td><td>$200</td><td>$2,400</td></tr>
-        <tr><td>Electricity (Ketchum)</td><td>Utilities</td><td>$200</td><td>$2,400</td></tr>
-        <tr><td>Apple Services Bundle</td><td>Tech/Media</td><td>$150</td><td>$1,800</td></tr>
-        <tr><td>Electricity (Boise)</td><td>Utilities</td><td>$120</td><td>$1,440</td></tr>
-        <tr><td>Internet (Ketchum)</td><td>Utilities</td><td>$100</td><td>$1,200</td></tr>
-        <tr><td>Cell Phone (Lisa)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
-        <tr><td>Cell Phone (Kohler)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
-        <tr><td>Water/Sewer (Ketchum)</td><td>Utilities</td><td>$80</td><td>$960</td></tr>
-        <tr><td>Gym / Fitness</td><td>Health</td><td>$75</td><td>$900</td></tr>
-        <tr><td>Internet (Boise)</td><td>Utilities</td><td>$70</td><td>$840</td></tr>
-        <tr><td>Adobe Creative Cloud</td><td>Creative</td><td>$55</td><td>$660</td></tr>
-        <tr><td>Streaming (Netflix, etc.)</td><td>Entertainment</td><td>$50</td><td>$600</td></tr>
-        <tr><td>Domain / Hosting</td><td>Business</td><td>$50</td><td>$600</td></tr>
-        <tr><td>Water/Sewer (Boise)</td><td>Utilities</td><td>$50</td><td>$600</td></tr>
-        <tr><td>Trash/Recycling</td><td>Utilities</td><td>$40</td><td>$480</td></tr>
-        <tr><td>Quickbooks / Accounting</td><td>Business</td><td>$40</td><td>$480</td></tr>
-        <tr><td>ChatGPT Plus</td><td>AI Tools</td><td>$20</td><td>$240</td></tr>
-        <tr><td>Cloud Storage</td><td>Tech</td><td>$20</td><td>$240</td></tr>
-        <tr><td>Zoom Pro</td><td>Communication</td><td>$16</td><td>$192</td></tr>
-        <tr><td>Figma</td><td>Design</td><td>$15</td><td>$180</td></tr>
-        <tr><td>Security / VPN</td><td>Tech</td><td>$15</td><td>$180</td></tr>
-        <tr><td>Microsoft 365</td><td>Productivity</td><td>$13</td><td>$156</td></tr>
-        <tr><td>Google Workspace</td><td>Productivity</td><td>$12</td><td>$144</td></tr>
-        <tr><td>Spotify</td><td>Entertainment</td><td>$11</td><td>$132</td></tr>
-        <tr><td>Other Misc Subscriptions</td><td>Various</td><td>$599</td><td>$7,188</td></tr>
-        <tr class="row-total"><td colspan="2">TOTAL SUBSCRIPTIONS</td><td>$2,800</td><td>$33,600</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ==================== INSURANCE ==================== -->
-  <div class="section">
-    <div class="section-title">Insurance Breakdown <span>$57,719 / year</span></div>
-    <table>
-      <thead><tr><th>Policy</th><th>Provider</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
-      <tbody>
-        <tr><td>Health Insurance (Lisa)</td><td>Marketplace</td><td>$1,100</td><td>$13,200</td></tr>
-        <tr><td>Auto Insurance (3 vehicles)</td><td>Various</td><td>$600</td><td>$7,200</td></tr>
-        <tr><td>Health Insurance (Kohler)</td><td>Marketplace</td><td>$450</td><td>$5,400</td></tr>
-        <tr><td>Mom's Supplemental</td><td>Medicare Supp</td><td>$375</td><td>$4,500</td></tr>
-        <tr><td>Life Insurance</td><td>Various</td><td>$350</td><td>$4,200</td></tr>
-        <tr><td>Homeowners (Bullion)</td><td>Safeco/Liberty</td><td>$208</td><td>$2,497</td></tr>
-        <tr><td>Business / Liability</td><td>Various</td><td>$200</td><td>$2,400</td></tr>
-        <tr><td>Homeowners (Ketchum)</td><td>Est.</td><td>$133</td><td>$1,600</td></tr>
-        <tr><td>Homeowners (Aspen)</td><td>Safeco/Liberty</td><td>$125</td><td>$1,497</td></tr>
-        <tr><td>Umbrella Policy</td><td>Various</td><td>$125</td><td>$1,500</td></tr>
-        <tr><td>Dental (Lisa &amp; Kohler)</td><td>Various</td><td>$120</td><td>$1,440</td></tr>
-        <tr><td>Homeowners (Boise)</td><td>Est.</td><td>$100</td><td>$1,200</td></tr>
-        <tr><td>Pet Insurance</td><td>Various</td><td>$85</td><td>$1,020</td></tr>
-        <tr><td>Flood (Ketchum)</td><td>NFIP</td><td>$84</td><td>$1,008</td></tr>
-        <tr><td>Jewelry / Valuables</td><td>Various</td><td>$73</td><td>$876</td></tr>
-        <tr><td>Earthquake (Ketchum)</td><td>Est.</td><td>$60</td><td>$720</td></tr>
-        <tr><td>EPLI / D&amp;O</td><td>Est.</td><td>$58</td><td>$700</td></tr>
-        <tr><td>Workers Comp</td><td>Idaho</td><td>$50</td><td>$600</td></tr>
-        <tr><td>Cyber Liability</td><td>Est.</td><td>$48</td><td>$581</td></tr>
-        <tr><td>Vision</td><td>Various</td><td>$40</td><td>$480</td></tr>
-        <tr><td>Storage Unit</td><td>Est.</td><td>$25</td><td>$300</td></tr>
-        <tr class="row-total"><td colspan="2">TOTAL INSURANCE</td><td>$4,810</td><td>$57,719</td></tr>
-      </tbody>
-    </table>
-    <div class="good"><strong>Savings opportunity:</strong> Bundling and shopping insurance could save $4,000-$6,000/yr. Some policies marked "Est." need verification.</div>
-  </div>
-
-  <!-- ==================== PROPERTIES ==================== -->
-  <div class="section">
-    <div class="section-title">Properties <span>4 Properties, No Mortgages</span></div>
-    <table>
-      <thead><tr><th>Property</th><th>Parcels</th><th class="right">Annual Tax</th><th class="right">Insurance</th><th class="right">Rent Income</th></tr></thead>
-      <tbody>
-        <tr><td>130 E Bullion, Hailey</td><td>2 parcels</td><td>$2,028</td><td>$2,497</td><td>$1,200/mo</td></tr>
-        <tr><td>217 Aspen Dr, Hailey</td><td>1 parcel</td><td>$1,659</td><td>$1,497</td><td>$900/mo</td></tr>
-        <tr><td>511 N Main, Ketchum</td><td>1 parcel</td><td>$2,800</td><td>$1,600</td><td>$1,500/mo</td></tr>
-        <tr><td>2825 Tumbleweed, Boise</td><td>1 parcel</td><td>$800</td><td>$1,200</td><td>Kohler lives here</td></tr>
-        <tr class="row-total"><td>TOTALS</td><td></td><td>$7,287</td><td>$6,794</td><td>$3,600/mo</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ==================== REMODEL ==================== -->
-  <div class="section">
-    <div class="section-title">Ketchum Remodel <span>$13,435 total</span></div>
-    <table>
-      <thead><tr><th>Item</th><th>When</th><th class="right">Cost</th></tr></thead>
-      <tbody>
-        <tr><td>Roof Replacement</td><td>Summer 2026</td><td>$8,500</td></tr>
-        <tr><td>Gutters &amp; Drainage</td><td>With roof work</td><td>$1,800</td></tr>
-        <tr><td>Interior Paint &amp; Patch</td><td>September 2026</td><td>$2,135</td></tr>
-        <tr><td>Misc Repairs</td><td>Ongoing</td><td>$1,000</td></tr>
-        <tr class="row-total"><td>TOTAL REMODEL</td><td></td><td>$13,435</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><strong>Payment plan:</strong> ~$6,700 deposit around April 2026, remaining ~$6,735 on completion around September 2026.</div>
-  </div>
-
-  <!-- ==================== CASH FLOW ==================== -->
-  <div class="section">
-    <div class="section-title">2026 Monthly Cash Flow</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th class="right">Confirmed In</th>
-          <th class="right">Possible In</th>
-          <th class="right">Expenses</th>
-          <th class="right">Remodel</th>
-          <th class="right">Net (Confirmed)</th>
-          <th class="right">Net (Best Case)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Jan</td><td>$12,022</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-negative">-$3,250</td></tr>
-        <tr><td>Feb</td><td>$12,022</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-negative">-$3,250</td></tr>
-        <tr><td>Mar</td><td>$12,022</td><td>$10,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-positive">+$6,750</td></tr>
-        <tr style="background:rgba(245,146,47,0.1)"><td>Apr</td><td>$12,022</td><td>$25,000</td><td>$15,272</td><td>$6,700</td><td class="cf-negative">-$9,950</td><td class="cf-positive">+$15,050</td></tr>
-        <tr><td>May</td><td>$12,022</td><td>$10,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-positive">+$6,750</td></tr>
-        <tr><td>Jun</td><td>$7,850</td><td>$25,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-positive">+$17,578</td></tr>
-        <tr><td>Jul</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
-        <tr><td>Aug</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
-        <tr style="background:rgba(245,146,47,0.1)"><td>Sep</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$6,735</td><td class="cf-negative">-$14,157</td><td class="cf-negative">-$14,157</td></tr>
-        <tr><td>Oct</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
-        <tr><td>Nov</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
-        <tr><td>Dec</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
-        <tr class="row-total">
-          <td>ANNUAL</td>
-          <td>$113,060</td>
-          <td>$70,000</td>
-          <td>$183,264</td>
-          <td>$13,435</td>
-          <td class="cf-negative">-$83,639</td>
-          <td class="cf-negative">-$13,639</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="note"><strong>Orange rows</strong> = months with remodel payments. April is the tightest month (remodel deposit + expenses). After May, Jeff Rust income ends.</div>
-  </div>
-
-  <!-- ==================== SAVINGS ==================== -->
-  <div class="section">
-    <div class="section-title">Savings Opportunities</div>
-    <div class="savings-row">
-      <div><div class="savings-name">Cancel Instacart</div><div class="savings-desc">Per your instruction &mdash; shop groceries directly</div></div>
-      <div class="savings-amt">$1,188/yr</div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">INSURANCE Q1</span><span class="ml-val ml-red">$14,430</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$24,285</span></div>
     </div>
-    <div class="savings-row">
-      <div><div class="savings-name">Drop ChatGPT Plus</div><div class="savings-desc">Consolidate to Claude only</div></div>
-      <div class="savings-amt">$240/yr</div>
+    <div class="month-alert">Insurance quarter hits hard. $16,435 in the hole this month.</div>
+  </div>
+</div>
+
+<!-- FEBRUARY -->
+<div class="month-card" style="border-left: 4px solid #d97706">
+  <div class="month-header">
+    <div class="month-name">February 2026</div>
+    <div class="month-net net-negative">-$2,005</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
     </div>
-    <div class="savings-row">
-      <div><div class="savings-name">Shop &amp; Bundle Insurance</div><div class="savings-desc">Compare rates, bundle policies &mdash; 10-15% potential</div></div>
-      <div class="savings-amt">$4,000-$6,000/yr</div>
-    </div>
-    <div class="savings-row">
-      <div><div class="savings-name">Audit Apple Services</div><div class="savings-desc">$150/mo bundle &mdash; check for unused items</div></div>
-      <div class="savings-amt">$600-$1,200/yr</div>
-    </div>
-    <div class="savings-row">
-      <div><div class="savings-name">Cap Kohler Credit Card</div><div class="savings-desc">$2,000/mo = $24k/yr &mdash; reduce by 25-50%?</div></div>
-      <div class="savings-amt">$6,000-$12,000/yr</div>
-    </div>
-    <div class="savings-row">
-      <div><div class="savings-name">Reduce Dining Out</div><div class="savings-desc">Currently ~$1,200/mo from transaction history</div></div>
-      <div class="savings-amt">$2,400-$4,800/yr</div>
-    </div>
-    <div class="savings-total">
-      <div class="savings-name">TOTAL POTENTIAL SAVINGS</div>
-      <div class="savings-amt">$14,428 - $25,428/yr</div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$9,855</span></div>
     </div>
   </div>
+</div>
 
-  <!-- ==================== INTERACTIVE PLANNER ==================== -->
-  <div class="planner-box">
-    <h3>What-If Scenario Planner</h3>
-    <p style="color:#94a3b8; margin-bottom:12px; font-size:14px">Check the boxes to see how your annual picture changes:</p>
+<!-- MARCH -->
+<div class="month-card" style="border-left: 4px solid #16a34a">
+  <div class="month-header">
+    <div class="month-name">March 2026</div>
+    <div class="month-net net-positive">+$2,167</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line"><span class="ml-label">Jeff Rust starts</span><span class="ml-val ml-green">$4,172</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Gersaw (hoped)</span><span class="ml-val ml-blue">$10,000</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Confirmed</span><span class="ml-val ml-green">$12,022</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$9,855</span></div>
+    </div>
+    <div class="month-good">Jeff Rust kicks in. First month in the green (+$2,167 confirmed). If Gersaw pays, +$12,167.</div>
+  </div>
+</div>
 
-    <label class="toggle-row">
-      <input type="checkbox" id="chk-gersaw" onchange="recalc()">
-      <div><div class="toggle-label">Gersaw Repayment: $40,000</div><div class="toggle-desc">$10,000/mo for 4 months starting March 15</div></div>
-    </label>
+<!-- APRIL -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">April 2026</div>
+    <div class="month-net net-negative">-$18,963</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base + Jeff Rust</span><span class="ml-val ml-green">$12,022</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Gersaw (hoped)</span><span class="ml-val ml-blue">$10,000</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Hotel Deal (hoped)</span><span class="ml-val ml-blue">$15,000</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Confirmed</span><span class="ml-val ml-green">$12,022</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">INSURANCE Q2</span><span class="ml-val ml-red">$14,430</span></div>
+      <div class="month-line ml-big"><span class="ml-label">REMODEL DEPOSIT</span><span class="ml-val ml-red">$6,700</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$30,985</span></div>
+    </div>
+    <div class="month-alert">WORST MONTH. Insurance Q2 + remodel deposit = $21,130 in extra bills. Confirmed: -$18,963. Even with Gersaw + Hotel: +$6,037.</div>
+  </div>
+</div>
 
-    <label class="toggle-row">
-      <input type="checkbox" id="chk-hotel" onchange="recalc()">
-      <div><div class="toggle-label">Hotel Artwork Deal: $30,000</div><div class="toggle-desc">~$15k April 15, ~$15k June 15</div></div>
-    </label>
+<!-- MAY -->
+<div class="month-card" style="border-left: 4px solid #16a34a">
+  <div class="month-header">
+    <div class="month-name">May 2026</div>
+    <div class="month-net net-positive">+$2,167</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base + Jeff Rust (last month)</span><span class="ml-val ml-green">$12,022</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Gersaw (hoped)</span><span class="ml-val ml-blue">$10,000</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Confirmed</span><span class="ml-val ml-green">$12,022</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$9,855</span></div>
+    </div>
+    <div class="month-note">Last month of Jeff Rust. After this, confirmed income drops to $7,850/mo.</div>
+  </div>
+</div>
 
-    <label class="toggle-row">
-      <input type="checkbox" id="chk-savings" onchange="recalc()">
-      <div><div class="toggle-label">Implement Savings Plan: ~$15,000/yr</div><div class="toggle-desc">Cancel Instacart, shop insurance, cap Kohler CC, reduce dining</div></div>
-    </label>
+<!-- JUNE -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">June 2026</div>
+    <div class="month-net net-negative">-$5,649</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income (no more Jeff Rust)</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Gersaw last payment (hoped)</span><span class="ml-val ml-blue">$10,000</span></div>
+      <div class="month-line ml-hoped"><span class="ml-label">Hotel Deal 2nd half (hoped)</span><span class="ml-val ml-blue">$15,000</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Confirmed</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">PROPERTY TAX 1st Half</span><span class="ml-val ml-red">$3,644</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$13,499</span></div>
+    </div>
+    <div class="month-alert">Jeff Rust income gone. Property tax due. Confirmed: -$5,649. Need Gersaw + Hotel to stay positive (+$19,351).</div>
+  </div>
+</div>
 
-    <div id="result-box" class="result-display" style="background:#dc2626; color:white">
-      <div class="result-label">Projected 2026 Annual Result</div>
-      <div class="result-number" id="result-num">-$89,983</div>
-      <div class="result-sub" id="result-sub">Base case: confirmed income only, includes remodel costs</div>
+<!-- JULY -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">July 2026</div>
+    <div class="month-net net-negative">-$16,435</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income only</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">INSURANCE Q3</span><span class="ml-val ml-red">$14,430</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$24,285</span></div>
+    </div>
+    <div class="month-alert">Insurance quarter + no extra income. All hoped-for payments done. This is the new reality.</div>
+  </div>
+</div>
+
+<!-- AUGUST -->
+<div class="month-card" style="border-left: 4px solid #d97706">
+  <div class="month-header">
+    <div class="month-name">August 2026</div>
+    <div class="month-net net-negative">-$2,005</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$9,855</span></div>
     </div>
   </div>
+</div>
+
+<!-- SEPTEMBER -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">September 2026</div>
+    <div class="month-net net-negative">-$8,740</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">REMODEL BALANCE</span><span class="ml-val ml-red">$6,735</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$16,590</span></div>
+    </div>
+    <div class="month-alert">Remodel final payment due.</div>
+  </div>
+</div>
+
+<!-- OCTOBER -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">October 2026</div>
+    <div class="month-net net-negative">-$16,435</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">INSURANCE Q4</span><span class="ml-val ml-red">$14,430</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$24,285</span></div>
+    </div>
+    <div class="month-alert">Last insurance quarter of the year.</div>
+  </div>
+</div>
+
+<!-- NOVEMBER -->
+<div class="month-card" style="border-left: 4px solid #d97706">
+  <div class="month-header">
+    <div class="month-name">November 2026</div>
+    <div class="month-net net-negative">-$2,005</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$9,855</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DECEMBER -->
+<div class="month-card" style="border-left: 4px solid #dc2626">
+  <div class="month-header">
+    <div class="month-name">December 2026</div>
+    <div class="month-net net-negative">-$5,649</div>
+  </div>
+  <div class="month-body">
+    <div class="month-col">
+      <h4>Money In</h4>
+      <div class="month-line"><span class="ml-label">Base income</span><span class="ml-val ml-green">$7,850</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total In</span><span class="ml-val ml-green">$7,850</span></div>
+    </div>
+    <div class="month-col">
+      <h4>Money Out</h4>
+      <div class="month-line"><span class="ml-label">Regular monthly</span><span class="ml-val ml-red">$9,855</span></div>
+      <div class="month-line ml-big"><span class="ml-label">PROPERTY TAX 2nd Half</span><span class="ml-val ml-red">$3,644</span></div>
+      <div class="month-line ml-total"><span class="ml-label">Total Out</span><span class="ml-val ml-red">$13,499</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= -->
+<!-- CUMULATIVE TRACKER            -->
+<!-- ============================= -->
+<div class="phase-title">Cumulative Running Total</div>
+
+<div class="cumulative">
+  <h3>How Deep In the Hole (Confirmed Income Only)</h3>
+  <div class="cum-bar-row"><span class="cum-month">Jan</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:17%">-$16k</div></div><span class="cum-val cum-neg">-$16,435</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Feb</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:19%">-$18k</div></div><span class="cum-val cum-neg">-$18,440</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Mar</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:17%">-$16k</div></div><span class="cum-val cum-neg">-$16,273</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Apr</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:37%">-$35k</div></div><span class="cum-val cum-neg">-$35,236</span></div>
+  <div class="cum-bar-row"><span class="cum-month">May</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:35%">-$33k</div></div><span class="cum-val cum-neg">-$33,069</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Jun</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:41%">-$39k</div></div><span class="cum-val cum-neg">-$38,718</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Jul</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:58%">-$55k</div></div><span class="cum-val cum-neg">-$55,153</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Aug</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:60%">-$57k</div></div><span class="cum-val cum-neg">-$57,158</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Sep</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:69%">-$66k</div></div><span class="cum-val cum-neg">-$65,898</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Oct</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:87%">-$82k</div></div><span class="cum-val cum-neg">-$82,333</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Nov</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:89%">-$84k</div></div><span class="cum-val cum-neg">-$84,338</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Dec</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:95%">-$90k</div></div><span class="cum-val cum-neg">-$89,987</span></div>
+</div>
+
+<div class="cumulative">
+  <h3>If Gersaw + Hotel Both Come Through (Best Case)</h3>
+  <div class="cum-bar-row"><span class="cum-month">Jan</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:40%">-$16k</div></div><span class="cum-val cum-neg">-$16,435</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Feb</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:45%">-$18k</div></div><span class="cum-val cum-neg">-$18,440</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Mar</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:17%">-$6k</div></div><span class="cum-val cum-neg">-$6,273</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Apr</span><div class="cum-bar-track"><div class="cum-bar cum-bar-mid" style="width:2%"></div></div><span class="cum-val cum-neg">-$236</span></div>
+  <div class="cum-bar-row"><span class="cum-month">May</span><div class="cum-bar-track"><div class="cum-bar cum-bar-pos" style="width:30%">+$12k</div></div><span class="cum-val cum-pos">+$11,931</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Jun</span><div class="cum-bar-track"><div class="cum-bar cum-bar-pos" style="width:77%">+$31k</div></div><span class="cum-val cum-pos">+$31,282</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Jul</span><div class="cum-bar-track"><div class="cum-bar cum-bar-pos" style="width:37%">+$15k</div></div><span class="cum-val cum-pos">+$14,847</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Aug</span><div class="cum-bar-track"><div class="cum-bar cum-bar-pos" style="width:32%">+$13k</div></div><span class="cum-val cum-pos">+$12,842</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Sep</span><div class="cum-bar-track"><div class="cum-bar cum-bar-pos" style="width:10%">+$4k</div></div><span class="cum-val cum-pos">+$4,102</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Oct</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:30%">-$12k</div></div><span class="cum-val cum-neg">-$12,333</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Nov</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:35%">-$14k</div></div><span class="cum-val cum-neg">-$14,338</span></div>
+  <div class="cum-bar-row"><span class="cum-month">Dec</span><div class="cum-bar-track"><div class="cum-bar cum-bar-neg" style="width:49%">-$20k</div></div><span class="cum-val cum-neg">-$19,987</span></div>
+</div>
+
+<!-- ============================= -->
+<!-- ANNUAL SUMMARY                -->
+<!-- ============================= -->
+<div class="phase-title">2026 Annual Bottom Line</div>
+
+<div class="annual-summary">
+  <div class="summary-box" style="background:#dc2626">
+    <div class="sb-label">Confirmed Only</div>
+    <div class="sb-num">-$89,987</div>
+    <div class="sb-detail">$106,716 in vs $196,703 out</div>
+  </div>
+  <div class="summary-box" style="background:#d97706">
+    <div class="sb-label">Best Case (+ $70k hoped)</div>
+    <div class="sb-num">-$19,987</div>
+    <div class="sb-detail">Still short, but survivable</div>
+  </div>
+</div>
+
+<div style="background:#1e293b; border-radius:12px; padding:20px; margin-bottom:24px">
+  <h3 style="color:#f5922f; font-size:18px; margin-bottom:12px">The Hardest Months</h3>
+  <div class="pb-row"><span class="pb-label" style="color:#f87171; font-weight:700">January &amp; July &amp; October</span><span class="pb-val" style="color:#f87171">-$16,435 each</span></div>
+  <div class="pb-row"><span class="pb-label" style="color:#f87171; font-weight:700">April (the worst)</span><span class="pb-val" style="color:#f87171">-$18,963</span></div>
+  <div style="color:#94a3b8; font-size:14px; margin-top:10px">These 4 months account for $68,268 of the annual shortfall. Insurance quarters + remodel deposit.</div>
+</div>
+
+<div style="background:rgba(74, 222, 128, 0.1); border-left:4px solid #16a34a; border-radius:0 12px 12px 0; padding:20px; margin-bottom:24px">
+  <h3 style="color:#4ade80; font-size:18px; margin-bottom:8px">What Would Fix This</h3>
+  <div style="color:#86efac; font-size:15px; line-height:1.8">
+    1. Both Gersaw + Hotel come through = +$70,000 (gets you to -$20k)<br>
+    2. Cap Kohler CC from $2,000 to $1,000/mo = saves $12,000/yr<br>
+    3. Shop insurance aggressively = save $5,000/yr<br>
+    4. Cancel Instacart + audit subscriptions = save $2,000/yr<br>
+    5. Cut dining from $1,200 to $600/mo = save $7,200/yr<br>
+    <strong style="color:white; font-size:17px; display:block; margin-top:12px">Total possible improvement: +$96,200 &rarr; that turns -$90k into +$6k</strong>
+  </div>
+</div>
 
 </div>
 
 <footer>
-  Lisa Wood Financial Dashboard &bull; Generated February 28, 2026 &bull; Data: Wells Fargo, Capital One, AmEx + manual entries
+  Lisa Wood 2026 Budget Calendar &bull; Generated Feb 28, 2026 &bull; Insurance assumed quarterly, property tax semi-annual (Idaho schedule)
 </footer>
-
-<script>
-function recalc() {
-  var base = -89983;
-  var g = document.getElementById('chk-gersaw').checked;
-  var h = document.getElementById('chk-hotel').checked;
-  var s = document.getElementById('chk-savings').checked;
-  var result = base;
-  var parts = [];
-
-  if (g) { result += 40000; parts.push('Gersaw +$40k'); }
-  if (h) { result += 30000; parts.push('Hotel +$30k'); }
-  if (s) { result += 15000; parts.push('Savings +$15k'); }
-
-  var el = document.getElementById('result-num');
-  var sub = document.getElementById('result-sub');
-  var box = document.getElementById('result-box');
-
-  if (result >= 0) {
-    el.textContent = '+$' + result.toLocaleString();
-    box.style.background = '#16a34a';
-    sub.textContent = 'Surplus! ' + parts.join(' + ');
-  } else if (result > -30000) {
-    el.textContent = '-$' + Math.abs(result).toLocaleString();
-    box.style.background = '#d97706';
-    sub.textContent = 'Manageable gap. ' + parts.join(' + ');
-  } else {
-    el.textContent = '-$' + Math.abs(result).toLocaleString();
-    box.style.background = '#dc2626';
-    sub.textContent = parts.length > 0 ? parts.join(' + ') : 'Base case: confirmed income only, includes remodel costs';
-  }
-}
-</script>
 
 </body>
 </html>
