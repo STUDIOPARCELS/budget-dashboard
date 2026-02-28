@@ -4,1098 +4,723 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lisa Wood - Financial Dashboard 2026</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
-  :root {
-    --navy: #1a2744;
-    --orange: #f5922f;
-    --green: #16a34a;
-    --red: #dc2626;
-    --blue: #2563eb;
-    --purple: #7c3aed;
-    --teal: #0d9488;
-    --pink: #db2777;
-    --amber: #d97706;
-    --slate: #334155;
-    --light-bg: #f1f5f9;
-    --card-bg: #ffffff;
-    --text: #1e293b;
-    --text-light: #64748b;
-    --border: #e2e8f0;
-  }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--light-bg);
-    color: var(--text);
-    line-height: 1.5;
+    background: #0f172a;
+    color: #f1f5f9;
+    line-height: 1.6;
+    font-size: 16px;
   }
 
   header {
-    background: linear-gradient(135deg, var(--navy) 0%, #2d4a7a 100%);
+    background: linear-gradient(135deg, #1a2744 0%, #1e3a5f 100%);
+    padding: 32px;
+    text-align: center;
+    border-bottom: 4px solid #f5922f;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 800;
     color: white;
-    padding: 24px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    margin-bottom: 4px;
   }
 
-  header h1 { font-size: 24px; font-weight: 700; }
-  header .subtitle { opacity: 0.8; font-size: 14px; }
-
-  .view-toggle {
-    display: flex;
-    gap: 4px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 4px;
+  header p {
+    color: #94a3b8;
+    font-size: 16px;
   }
 
-  .view-toggle button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.2s;
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px;
   }
 
-  .view-toggle button.active {
-    background: white;
-    color: var(--navy);
-  }
-
-  .view-toggle button:hover:not(.active) {
-    background: rgba(255,255,255,0.1);
-    color: white;
-  }
-
-  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
-
-  /* KPI CARDS */
-  .kpi-grid {
+  /* ========== BIG NUMBER CARDS ========== */
+  .kpi-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 
-  .kpi-card {
-    border-radius: 12px;
-    padding: 20px;
-    color: white;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .kpi-card::after {
-    content: '';
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-  }
-
-  .kpi-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 4px; }
-  .kpi-card .value { font-size: 28px; font-weight: 800; }
-  .kpi-card .detail { font-size: 12px; opacity: 0.85; margin-top: 4px; }
-
-  .kpi-income { background: linear-gradient(135deg, #16a34a, #15803d); }
-  .kpi-expense { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-  .kpi-gap { background: linear-gradient(135deg, #d97706, #b45309); }
-  .kpi-possible { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-
-  /* SECTIONS */
-  .section {
-    background: var(--card-bg);
-    border-radius: 12px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    overflow: hidden;
-  }
-
-  .section-header {
-    background: linear-gradient(135deg, var(--navy), #2d4a7a);
-    color: white;
-    padding: 16px 20px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-
-  .section-header:hover { filter: brightness(1.1); }
-
-  .section-header h2 { font-size: 16px; font-weight: 700; }
-
-  .section-header .toggle-icon {
-    font-size: 18px;
-    transition: transform 0.3s;
-    width: 24px;
+  .kpi {
+    border-radius: 16px;
+    padding: 28px 24px;
     text-align: center;
   }
 
-  .section-header .toggle-icon.open { transform: rotate(180deg); }
-
-  .section-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s ease;
-    padding: 0 20px;
-  }
-
-  .section-body.open {
-    max-height: 5000px;
-    padding: 20px;
-    overflow: visible;
-  }
-
-  .section-header .badge {
-    background: var(--orange);
-    color: white;
-    font-size: 12px;
+  .kpi .kpi-label {
+    font-size: 14px;
     font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 12px;
-    margin-left: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    opacity: 0.9;
   }
 
-  /* TABLES */
+  .kpi .kpi-number {
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .kpi .kpi-sub {
+    font-size: 15px;
+    margin-top: 6px;
+    opacity: 0.8;
+  }
+
+  .kpi-green { background: #16a34a; color: white; }
+  .kpi-red { background: #dc2626; color: white; }
+  .kpi-orange { background: #d97706; color: white; }
+  .kpi-blue { background: #2563eb; color: white; }
+
+  /* ========== SECTION HEADERS ========== */
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f5922f;
+    border-bottom: 3px solid #f5922f;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .section-title span {
+    float: right;
+    color: white;
+    font-size: 18px;
+  }
+
+  /* ========== TABLES ========== */
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
-  }
-
-  thead th {
-    background: var(--navy);
-    color: white;
-    padding: 10px 12px;
-    text-align: left;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 700;
-  }
-
-  thead th:last-child { text-align: right; }
-
-  tbody td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  tbody td:last-child { text-align: right; font-weight: 600; }
-
-  tbody tr:hover { background: #f8fafc; }
-
-  .total-row td {
-    font-weight: 800 !important;
-    background: #f1f5f9;
-    border-top: 2px solid var(--navy);
+    margin-bottom: 16px;
     font-size: 15px;
   }
 
-  .subtotal-row td {
-    font-weight: 700 !important;
-    background: #f8fafc;
-    border-top: 1px solid var(--slate);
-  }
-
-  /* TAGS */
-  .tag {
-    display: inline-block;
-    font-size: 11px;
+  thead th {
+    background: #1e3a5f;
+    color: #f5922f;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 13px;
     font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
-  .tag-confirmed { background: #dcfce7; color: #15803d; }
-  .tag-possible { background: #dbeafe; color: #1d4ed8; }
-  .tag-ending { background: #fef3c7; color: #92400e; }
-  .tag-fixed { background: #f3e8ff; color: #6b21a8; }
-  .tag-variable { background: #fce7f3; color: #9d174d; }
+  thead th:last-child,
+  thead th.right { text-align: right; }
 
-  /* CASHFLOW CHART */
-  .chart-container {
-    position: relative;
-    height: 350px;
-    margin: 20px 0;
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #1e293b;
+    color: #e2e8f0;
   }
 
-  /* SCENARIO CARDS */
-  .scenario-grid {
+  tbody td:last-child { text-align: right; font-weight: 700; color: white; }
+
+  tbody tr:hover { background: #1e293b; }
+
+  .row-total td {
+    background: #1e3a5f !important;
+    font-weight: 900 !important;
+    font-size: 17px;
+    color: white !important;
+    border-top: 3px solid #f5922f;
+  }
+
+  .row-sub td {
+    background: #162032;
+    font-weight: 700 !important;
+    color: #94a3b8 !important;
+  }
+
+  .row-sub td:last-child { color: white !important; }
+
+  .row-highlight { background: rgba(245, 146, 47, 0.1) !important; }
+
+  .row-cancel td { background: rgba(220, 38, 38, 0.15) !important; }
+
+  /* ========== TAGS ========== */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-green { background: #16a34a; color: white; }
+  .tag-blue { background: #2563eb; color: white; }
+  .tag-yellow { background: #d97706; color: white; }
+  .tag-red { background: #dc2626; color: white; }
+  .tag-purple { background: #7c3aed; color: white; }
+
+  /* ========== SCENARIO BOXES ========== */
+  .scenarios {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-top: 16px;
+    margin-bottom: 16px;
   }
 
-  .scenario-card {
-    border-radius: 10px;
-    padding: 20px;
-    color: white;
+  .scenario-box {
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
   }
 
-  .scenario-card h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.9; }
-  .scenario-card .scenario-amount { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
-  .scenario-card .scenario-detail { font-size: 13px; opacity: 0.85; }
+  .scenario-box h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
 
-  .scenario-base { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-  .scenario-friend { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-  .scenario-best { background: linear-gradient(135deg, #16a34a, #15803d); }
+  .scenario-box .big-num {
+    font-size: 36px;
+    font-weight: 900;
+  }
 
-  /* SAVINGS SECTION */
-  .savings-item {
+  .scenario-box p {
+    font-size: 13px;
+    margin-top: 6px;
+    opacity: 0.8;
+  }
+
+  /* ========== NOTES ========== */
+  .note {
+    background: #1e293b;
+    border-left: 4px solid #f5922f;
+    padding: 14px 18px;
+    margin: 12px 0 20px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #cbd5e1;
+  }
+
+  .note strong { color: #f5922f; }
+
+  .alert {
+    background: rgba(220, 38, 38, 0.15);
+    border-left: 4px solid #dc2626;
+    padding: 14px 18px;
+    margin: 12px 0 20px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #fca5a5;
+  }
+
+  .alert strong { color: #ef4444; }
+
+  .good {
+    background: rgba(22, 163, 74, 0.15);
+    border-left: 4px solid #16a34a;
+    padding: 14px 18px;
+    margin: 12px 0 20px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #86efac;
+  }
+
+  .good strong { color: #22c55e; }
+
+  /* ========== CASHFLOW TABLE ========== */
+  .cf-positive { color: #4ade80 !important; }
+  .cf-negative { color: #f87171 !important; }
+
+  /* ========== SAVINGS LIST ========== */
+  .savings-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+    border-bottom: 1px solid #1e293b;
   }
 
-  .savings-item:last-child { border-bottom: none; }
+  .savings-row:last-child { border-bottom: none; }
 
-  .savings-item .savings-label { font-weight: 600; }
-  .savings-item .savings-desc { font-size: 13px; color: var(--text-light); }
-  .savings-item .savings-amount {
+  .savings-name { font-weight: 700; font-size: 16px; }
+  .savings-desc { font-size: 13px; color: #94a3b8; }
+  .savings-amt { font-weight: 900; font-size: 18px; color: #4ade80; white-space: nowrap; }
+
+  .savings-total {
+    background: #16a34a;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .savings-total .savings-name { font-size: 18px; }
+  .savings-total .savings-amt { font-size: 24px; color: white; }
+
+  /* ========== INTERACTIVE PLANNER ========== */
+  .planner-box {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 20px;
+  }
+
+  .planner-box h3 {
+    font-size: 18px;
     font-weight: 800;
-    color: var(--green);
-    font-size: 16px;
-    white-space: nowrap;
+    margin-bottom: 16px;
+    color: #f5922f;
   }
 
-  /* NOTES */
-  .note-box {
-    background: #fffbeb;
-    border-left: 4px solid var(--amber);
-    padding: 12px 16px;
-    margin: 16px 0;
-    border-radius: 0 8px 8px 0;
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #334155;
+    cursor: pointer;
+  }
+
+  .toggle-row:last-of-type { border-bottom: none; }
+
+  .toggle-row input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: #f5922f;
+    cursor: pointer;
+  }
+
+  .toggle-label { font-weight: 700; font-size: 16px; }
+  .toggle-desc { font-size: 13px; color: #94a3b8; }
+
+  .result-display {
+    margin-top: 20px;
+    padding: 28px;
+    border-radius: 12px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+
+  .result-display .result-label {
     font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.9;
+    margin-bottom: 8px;
   }
 
-  .note-box strong { color: var(--amber); }
-
-  .alert-box {
-    background: #fef2f2;
-    border-left: 4px solid var(--red);
-    padding: 12px 16px;
-    margin: 16px 0;
-    border-radius: 0 8px 8px 0;
-    font-size: 13px;
+  .result-display .result-number {
+    font-size: 52px;
+    font-weight: 900;
   }
 
-  .alert-box strong { color: var(--red); }
+  .result-display .result-sub {
+    font-size: 15px;
+    margin-top: 6px;
+    opacity: 0.8;
+  }
 
-  /* VIEWS */
-  .view { display: none; }
-  .view.active { display: block; }
-
-  /* RESPONSIVE */
+  /* ========== RESPONSIVE ========== */
   @media (max-width: 768px) {
-    .container { padding: 12px; }
-    .kpi-card .value { font-size: 22px; }
-    header { padding: 16px; }
-    header h1 { font-size: 20px; }
-    .scenario-grid { grid-template-columns: 1fr; }
-  }
-
-  /* Print */
-  @media print {
-    header { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-    .kpi-card { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-    .section-body { max-height: none !important; padding: 20px !important; overflow: visible !important; }
+    .kpi-row { grid-template-columns: 1fr; }
+    .kpi .kpi-number { font-size: 36px; }
+    .scenarios { grid-template-columns: 1fr; }
+    header h1 { font-size: 24px; }
+    .section-title { font-size: 18px; }
+    .section-title span { float: none; display: block; font-size: 16px; }
+    table { font-size: 13px; }
+    thead th, tbody td { padding: 8px 10px; }
   }
 
   footer {
     text-align: center;
-    padding: 24px;
-    color: var(--text-light);
-    font-size: 12px;
+    padding: 32px;
+    color: #475569;
+    font-size: 13px;
+    border-top: 1px solid #1e293b;
+    margin-top: 40px;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <h1>Lisa Wood Financial Dashboard</h1>
-    <div class="subtitle">As of February 28, 2026 &mdash; All figures annualized unless noted</div>
-  </div>
-  <div class="view-toggle">
-    <button class="active" onclick="switchView('overview')">Overview</button>
-    <button onclick="switchView('detail')">Detail</button>
-    <button onclick="switchView('cashflow')">Cash Flow</button>
-  </div>
+  <h1>Lisa Wood &mdash; Financial Dashboard</h1>
+  <p>As of February 28, 2026 &bull; All figures annualized unless noted</p>
 </header>
 
 <div class="container">
 
-  <!-- ===================== KPI CARDS ===================== -->
-  <div class="kpi-grid">
-    <div class="kpi-card kpi-income">
-      <div class="label">Confirmed Monthly Income</div>
-      <div class="value">$8,893</div>
-      <div class="detail">$106,716 / year</div>
+  <!-- ==================== KPI CARDS ==================== -->
+  <div class="kpi-row">
+    <div class="kpi kpi-green">
+      <div class="kpi-label">Confirmed Monthly Income</div>
+      <div class="kpi-number">$8,893</div>
+      <div class="kpi-sub">$106,716 per year</div>
     </div>
-    <div class="kpi-card kpi-expense">
-      <div class="label">Monthly Expenses</div>
-      <div class="value">$15,272</div>
-      <div class="detail">$183,264 / year</div>
+    <div class="kpi kpi-red">
+      <div class="kpi-label">Monthly Expenses</div>
+      <div class="kpi-number">$15,272</div>
+      <div class="kpi-sub">$183,264 per year</div>
     </div>
-    <div class="kpi-card kpi-gap">
-      <div class="label">Monthly Shortfall</div>
-      <div class="value">-$6,379</div>
-      <div class="detail">-$76,548 / year</div>
+    <div class="kpi kpi-orange">
+      <div class="kpi-label">Monthly Shortfall</div>
+      <div class="kpi-number">-$6,379</div>
+      <div class="kpi-sub">-$76,548 per year</div>
     </div>
-    <div class="kpi-card kpi-possible">
-      <div class="label">Possible Extra Income</div>
-      <div class="value">$70,000</div>
-      <div class="detail">Friend $40k + Hotel $30k</div>
+    <div class="kpi kpi-blue">
+      <div class="kpi-label">Possible Extra Income</div>
+      <div class="kpi-number">$70,000</div>
+      <div class="kpi-sub">Friend $40k + Hotel Deal $30k</div>
     </div>
   </div>
 
-  <!-- ==================== OVERVIEW VIEW ==================== -->
-  <div id="view-overview" class="view active">
-
-    <!-- INCOME -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Income Streams</h2><span class="badge">$106,716/yr</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Source</th><th>Status</th><th>Notes</th><th>Monthly</th></tr></thead>
-          <tbody>
-            <tr><td>Rental Income (4 tenants)</td><td><span class="tag tag-confirmed">Confirmed</span></td><td>Wood River, Boise, Ketchum duplex</td><td>$3,600</td></tr>
-            <tr><td>Stafftopia</td><td><span class="tag tag-confirmed">Confirmed</span></td><td>Business income</td><td>$2,750</td></tr>
-            <tr><td>WFCS Distribution</td><td><span class="tag tag-confirmed">Confirmed</span></td><td>Monthly distribution</td><td>$1,500</td></tr>
-            <tr><td>Jeff Rust Payment</td><td><span class="tag tag-ending">Ends ~May</span></td><td>$4,172/mo for 3 months remaining</td><td>$4,172</td></tr>
-            <tr class="subtotal-row"><td colspan="3">Confirmed Monthly (with Jeff Rust)</td><td>$12,022</td></tr>
-            <tr class="subtotal-row"><td colspan="3">Confirmed Monthly (after Jeff Rust ends)</td><td>$7,850</td></tr>
-            <tr class="total-row"><td colspan="3">Annual Confirmed Total</td><td>$106,716</td></tr>
-          </tbody>
-        </table>
-
-        <div class="note-box" style="margin-top:16px">
-          <strong>Note:</strong> Jeff Rust pays $4,172/mo for ~3 more months (through ~May 2026), then that income stream ends. Annual figure includes the remaining Jeff Rust payments ($12,516).
-        </div>
-
-        <h3 style="margin-top:20px; font-size:15px; color:var(--navy)">Possible / Hoped-For Income</h3>
-        <table style="margin-top:8px">
-          <thead><tr><th>Source</th><th>Status</th><th>When</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Friend (Gersaw) Repayment</td><td><span class="tag tag-possible">Possible</span></td><td>$10,000/mo starting Mar 15</td><td>$40,000</td></tr>
-            <tr><td>Hotel Artwork Deal</td><td><span class="tag tag-possible">Possible</span></td><td>~$15k Apr 15, ~$15k Jun 15</td><td>$30,000</td></tr>
-            <tr class="total-row"><td colspan="3">Total Possible Extra Income</td><td>$70,000</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- EXPENSES SUMMARY -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Expenses Summary</h2><span class="badge">$183,264/yr</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Category</th><th>Type</th><th>Monthly</th><th>Annual</th></tr></thead>
-          <tbody>
-            <tr><td>Insurance (all policies)</td><td><span class="tag tag-fixed">Fixed</span></td><td>$4,810</td><td>$57,719</td></tr>
-            <tr><td>Kohler Support</td><td><span class="tag tag-fixed">Fixed</span></td><td>$3,860</td><td>$46,320</td></tr>
-            <tr><td>Subscriptions &amp; Services</td><td><span class="tag tag-variable">Mixed</span></td><td>$2,800</td><td>$33,600</td></tr>
-            <tr><td>Property Taxes</td><td><span class="tag tag-fixed">Fixed</span></td><td>$607</td><td>$7,287</td></tr>
-            <tr><td>Dining &amp; Entertainment</td><td><span class="tag tag-variable">Variable</span></td><td>$1,200</td><td>$14,400</td></tr>
-            <tr><td>Gas &amp; Auto</td><td><span class="tag tag-variable">Variable</span></td><td>$400</td><td>$4,800</td></tr>
-            <tr><td>Groceries &amp; Merchandise</td><td><span class="tag tag-variable">Variable</span></td><td>$800</td><td>$9,600</td></tr>
-            <tr><td>Travel</td><td><span class="tag tag-variable">Variable</span></td><td>$250</td><td>$3,000</td></tr>
-            <tr><td>Miscellaneous</td><td><span class="tag tag-variable">Variable</span></td><td>$545</td><td>$6,538</td></tr>
-            <tr class="total-row"><td colspan="2">Total Monthly Expenses</td><td>$15,272</td><td>$183,264</td></tr>
-          </tbody>
-        </table>
-
-        <div style="margin-top:16px">
-          <div class="chart-container" style="height:280px">
-            <canvas id="expenseDonut"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SCENARIOS -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>2026 Scenarios</h2></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <div class="scenario-grid">
-          <div class="scenario-card scenario-base">
-            <h3>Base Case (Confirmed Only)</h3>
-            <div class="scenario-amount">-$76,548</div>
-            <div class="scenario-detail">Annual shortfall with only confirmed income. Must address spending or find new income.</div>
-          </div>
-          <div class="scenario-card scenario-friend">
-            <h3>+ Friend Repayment ($40k)</h3>
-            <div class="scenario-amount">-$36,548</div>
-            <div class="scenario-detail">If Gersaw pays $10k/mo Mar-Jun. Still short but significantly better.</div>
-          </div>
-          <div class="scenario-card scenario-best">
-            <h3>+ Friend + Hotel Deal ($70k)</h3>
-            <div class="scenario-amount">-$6,548</div>
-            <div class="scenario-detail">Best case: both come through. Nearly break-even for the year.</div>
-          </div>
-        </div>
-
-        <div class="alert-box" style="margin-top:16px">
-          <strong>Key Insight:</strong> Even in the best-case scenario, the budget is tight. After Jeff Rust ends (~May), confirmed monthly income drops to $7,850 vs $15,272 in expenses &mdash; a $7,422/mo gap. Finding additional steady income or cutting $7k+/mo in expenses is critical.
-        </div>
-      </div>
-    </div>
-
+  <!-- ==================== INCOME ==================== -->
+  <div class="section">
+    <div class="section-title">Confirmed Income <span>$106,716 / year</span></div>
+    <table>
+      <thead><tr><th>Source</th><th>Status</th><th>Notes</th><th class="right">Monthly</th></tr></thead>
+      <tbody>
+        <tr><td>Rental Income (4 tenants)</td><td><span class="tag tag-green">Confirmed</span></td><td>Hailey, Boise, Ketchum duplex</td><td>$3,600</td></tr>
+        <tr><td>Stafftopia</td><td><span class="tag tag-green">Confirmed</span></td><td>Business income</td><td>$2,750</td></tr>
+        <tr><td>WFCS Distribution</td><td><span class="tag tag-green">Confirmed</span></td><td>Monthly distribution</td><td>$1,500</td></tr>
+        <tr><td>Jeff Rust Payment</td><td><span class="tag tag-yellow">Ends ~May</span></td><td>$4,172/mo, 3 months left</td><td>$4,172</td></tr>
+        <tr class="row-sub"><td colspan="3">Monthly total while Jeff Rust active</td><td>$12,022</td></tr>
+        <tr class="row-sub"><td colspan="3">Monthly total after Jeff Rust ends</td><td>$7,850</td></tr>
+        <tr class="row-total"><td colspan="3">Annual Confirmed Income</td><td>$106,716</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Key:</strong> Jeff Rust pays $4,172/mo for ~3 more months (through May 2026). After that, confirmed monthly income drops to $7,850.</div>
   </div>
 
-  <!-- ==================== DETAIL VIEW ==================== -->
-  <div id="view-detail" class="view">
-
-    <!-- PROPERTIES -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Properties &amp; Real Estate</h2><span class="badge">4 Properties</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Property</th><th>Parcels</th><th>Annual Tax</th><th>Insurance</th><th>Rental Income</th></tr></thead>
-          <tbody>
-            <tr><td>130 E Bullion, Hailey</td><td>2 (RP001860000000, RP00186001000A)</td><td>$2,028</td><td>$2,497/yr</td><td>$1,200/mo</td></tr>
-            <tr><td>217 Aspen Dr, Hailey</td><td>1 (RP001760080050)</td><td>$1,659</td><td>$1,497/yr</td><td>$900/mo</td></tr>
-            <tr><td>511 N Main, Ketchum</td><td>1 (RPK00720030160)</td><td>$2,800</td><td>$1,600/yr (est)</td><td>$1,500/mo (duplex)</td></tr>
-            <tr><td>2825 Tumbleweed, Boise</td><td>1 (R5828600050)</td><td>$800</td><td>$1,200/yr (est)</td><td>$0 (Kohler lives here)</td></tr>
-            <tr class="total-row"><td>Totals</td><td></td><td>$7,287</td><td>$6,794</td><td>$3,600/mo</td></tr>
-          </tbody>
-        </table>
-        <div class="note-box"><strong>Note:</strong> No mortgages on any property. Kohler occupies Boise house (rent equivalent ~$860/mo covered under Kohler Support).</div>
-      </div>
-    </div>
-
-    <!-- INSURANCE -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Insurance Breakdown</h2><span class="badge">$57,719/yr</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Policy</th><th>Provider</th><th>Monthly</th><th>Annual</th></tr></thead>
-          <tbody>
-            <tr><td>Health Insurance (Lisa)</td><td>Marketplace</td><td>$1,100</td><td>$13,200</td></tr>
-            <tr><td>Health Insurance (Kohler)</td><td>Marketplace</td><td>$450</td><td>$5,400</td></tr>
-            <tr><td>Dental (Lisa &amp; Kohler)</td><td>Various</td><td>$120</td><td>$1,440</td></tr>
-            <tr><td>Vision</td><td>Various</td><td>$40</td><td>$480</td></tr>
-            <tr><td>Auto Insurance (3 vehicles)</td><td>Various</td><td>$600</td><td>$7,200</td></tr>
-            <tr><td>Homeowners (Bullion)</td><td>Safeco/Liberty</td><td>$208</td><td>$2,497</td></tr>
-            <tr><td>Homeowners (Aspen)</td><td>Safeco/Liberty</td><td>$125</td><td>$1,497</td></tr>
-            <tr><td>Homeowners (Ketchum)</td><td>Estimated</td><td>$133</td><td>$1,600</td></tr>
-            <tr><td>Homeowners (Boise)</td><td>Estimated</td><td>$100</td><td>$1,200</td></tr>
-            <tr><td>Umbrella Policy</td><td>Various</td><td>$125</td><td>$1,500</td></tr>
-            <tr><td>Life Insurance</td><td>Various</td><td>$350</td><td>$4,200</td></tr>
-            <tr><td>Business / Liability</td><td>Various</td><td>$200</td><td>$2,400</td></tr>
-            <tr><td>Mom's Supplemental</td><td>Medicare Supp</td><td>$375</td><td>$4,500</td></tr>
-            <tr><td>Pet Insurance</td><td>Various</td><td>$85</td><td>$1,020</td></tr>
-            <tr><td>Flood Insurance (Ketchum)</td><td>NFIP</td><td>$84</td><td>$1,008</td></tr>
-            <tr><td>Jewelry / Valuables Rider</td><td>Various</td><td>$73</td><td>$876</td></tr>
-            <tr><td>Earthquake (Ketchum)</td><td>Estimated</td><td>$60</td><td>$720</td></tr>
-            <tr><td>EPLI / D&amp;O (Business)</td><td>Estimated</td><td>$58</td><td>$700</td></tr>
-            <tr><td>Cyber Liability</td><td>Estimated</td><td>$48</td><td>$581</td></tr>
-            <tr><td>Workers Comp (if applicable)</td><td>Idaho</td><td>$50</td><td>$600</td></tr>
-            <tr><td>Storage Unit Insurance</td><td>Estimated</td><td>$25</td><td>$300</td></tr>
-            <tr class="total-row"><td colspan="2">Total Insurance</td><td>$4,810</td><td>$57,719</td></tr>
-          </tbody>
-        </table>
-        <div class="note-box"><strong>Note:</strong> Some policies are estimates. Could potentially save $4,000-$6,000/yr by shopping insurance and bundling policies.</div>
-      </div>
-    </div>
-
-    <!-- KOHLER SUPPORT -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Kohler Support</h2><span class="badge">$46,320/yr</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Item</th><th>Monthly</th><th>Annual</th></tr></thead>
-          <tbody>
-            <tr><td>Rent (Boise house equivalent)</td><td>$860</td><td>$10,320</td></tr>
-            <tr><td>Credit Card Payment</td><td>$2,000</td><td>$24,000</td></tr>
-            <tr><td>Stafftopia Salary (to Kohler)</td><td>$1,000</td><td>$12,000</td></tr>
-            <tr class="total-row"><td>Total Kohler Support</td><td>$3,860</td><td>$46,320</td></tr>
-          </tbody>
-        </table>
-        <div class="note-box"><strong>Note:</strong> Kohler's credit card is a significant expense. Reviewing and potentially capping this could save substantially.</div>
-      </div>
-    </div>
-
-    <!-- SUBSCRIPTIONS -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Subscriptions &amp; Services</h2><span class="badge">~$33,600/yr</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Service</th><th>Category</th><th>Monthly</th><th>Annual</th></tr></thead>
-          <tbody>
-            <tr style="background:#fef2f2"><td>Instacart+ Membership</td><td>Grocery Delivery</td><td>$99</td><td>$1,188</td></tr>
-            <tr><td>Apple Services Bundle</td><td>Tech/Media</td><td>$150</td><td>$1,800</td></tr>
-            <tr><td>Claude AI (Anthropic)</td><td>AI Tools</td><td>$200</td><td>$2,400</td></tr>
-            <tr><td>ChatGPT Plus</td><td>AI Tools</td><td>$20</td><td>$240</td></tr>
-            <tr><td>Adobe Creative Cloud</td><td>Creative</td><td>$55</td><td>$660</td></tr>
-            <tr><td>Figma</td><td>Design</td><td>$15</td><td>$180</td></tr>
-            <tr><td>Microsoft 365</td><td>Productivity</td><td>$13</td><td>$156</td></tr>
-            <tr><td>Google Workspace</td><td>Productivity</td><td>$12</td><td>$144</td></tr>
-            <tr><td>Zoom Pro</td><td>Communication</td><td>$16</td><td>$192</td></tr>
-            <tr><td>Cell Phone (Lisa)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
-            <tr><td>Cell Phone (Kohler)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
-            <tr><td>Internet (Ketchum)</td><td>Utilities</td><td>$100</td><td>$1,200</td></tr>
-            <tr><td>Internet (Boise)</td><td>Utilities</td><td>$70</td><td>$840</td></tr>
-            <tr><td>Electricity (Ketchum)</td><td>Utilities</td><td>$200</td><td>$2,400</td></tr>
-            <tr><td>Electricity (Boise)</td><td>Utilities</td><td>$120</td><td>$1,440</td></tr>
-            <tr><td>Gas/Heating (Ketchum)</td><td>Utilities</td><td>$250</td><td>$3,000</td></tr>
-            <tr><td>Water/Sewer (Ketchum)</td><td>Utilities</td><td>$80</td><td>$960</td></tr>
-            <tr><td>Water/Sewer (Boise)</td><td>Utilities</td><td>$50</td><td>$600</td></tr>
-            <tr><td>Trash/Recycling</td><td>Utilities</td><td>$40</td><td>$480</td></tr>
-            <tr><td>Streaming (Netflix, etc.)</td><td>Entertainment</td><td>$50</td><td>$600</td></tr>
-            <tr><td>Spotify</td><td>Entertainment</td><td>$11</td><td>$132</td></tr>
-            <tr><td>Gym / Fitness</td><td>Health</td><td>$75</td><td>$900</td></tr>
-            <tr><td>Cloud Storage (iCloud, Dropbox)</td><td>Tech</td><td>$20</td><td>$240</td></tr>
-            <tr><td>Domain / Hosting</td><td>Business</td><td>$50</td><td>$600</td></tr>
-            <tr><td>Quickbooks / Accounting</td><td>Business</td><td>$40</td><td>$480</td></tr>
-            <tr><td>Security / VPN</td><td>Tech</td><td>$15</td><td>$180</td></tr>
-            <tr><td>Other Misc Subscriptions</td><td>Various</td><td>$599</td><td>$7,188</td></tr>
-            <tr class="total-row"><td colspan="2">Total Subscriptions &amp; Services</td><td>$2,800</td><td>$33,600</td></tr>
-          </tbody>
-        </table>
-        <div style="background:#fef2f2; padding:12px 16px; border-radius:8px; margin-top:12px; font-size:13px">
-          <strong style="color:var(--red)">Action Item:</strong> Cancel Instacart ($1,188/yr savings). Consider consolidating AI tools (Claude + ChatGPT = $2,640/yr). Review Apple Services bundle for unused items.
-        </div>
-      </div>
-    </div>
-
-    <!-- REMODEL -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Ketchum Remodel Project</h2><span class="badge">$13,435</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <table>
-          <thead><tr><th>Item</th><th>Timing</th><th>Cost</th></tr></thead>
-          <tbody>
-            <tr><td>Roof Replacement</td><td>Target: Summer 2026</td><td>$8,500</td></tr>
-            <tr><td>Gutters &amp; Drainage</td><td>With roof work</td><td>$1,800</td></tr>
-            <tr><td>Interior Paint &amp; Patch</td><td>Sep 2026</td><td>$2,135</td></tr>
-            <tr><td>Misc Repairs</td><td>Ongoing</td><td>$1,000</td></tr>
-            <tr class="total-row"><td>Total Remodel</td><td></td><td>$13,435</td></tr>
-          </tbody>
-        </table>
-        <div class="note-box">
-          <strong>Payment Plan:</strong> Approximately $6,700 deposit around April 2026, remaining $6,735 upon completion around September 2026. Factor into cash flow for those months.
-        </div>
-      </div>
-    </div>
-
-    <!-- SAVINGS OPPORTUNITIES -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Savings Opportunities</h2><span class="badge">$10k-$23k potential</span></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Cancel Instacart</div>
-            <div class="savings-desc">Per your instruction &mdash; shop groceries directly</div>
-          </div>
-          <div class="savings-amount">$1,188/yr</div>
-        </div>
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Consolidate AI Tools</div>
-            <div class="savings-desc">Keep Claude, drop ChatGPT Plus ($20/mo)</div>
-          </div>
-          <div class="savings-amount">$240/yr</div>
-        </div>
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Shop Insurance</div>
-            <div class="savings-desc">Bundle policies, compare rates &mdash; potential 10-15% savings</div>
-          </div>
-          <div class="savings-amount">$4,000-$6,000/yr</div>
-        </div>
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Audit Apple Services</div>
-            <div class="savings-desc">Review $150/mo bundle for unused subscriptions</div>
-          </div>
-          <div class="savings-amount">$600-$1,200/yr</div>
-        </div>
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Review Kohler Credit Card</div>
-            <div class="savings-desc">$2,000/mo is $24k/yr &mdash; cap or reduce?</div>
-          </div>
-          <div class="savings-amount">$6,000-$12,000/yr</div>
-        </div>
-        <div class="savings-item">
-          <div>
-            <div class="savings-label">Reduce Dining Out</div>
-            <div class="savings-desc">Currently ~$1,200/mo average from transaction history</div>
-          </div>
-          <div class="savings-amount">$2,400-$4,800/yr</div>
-        </div>
-        <div class="savings-item" style="background:#f0fdf4; border-radius:8px">
-          <div>
-            <div class="savings-label" style="color:var(--green); font-size:16px">Total Potential Savings</div>
-            <div class="savings-desc">If all implemented</div>
-          </div>
-          <div class="savings-amount" style="font-size:20px">$14,428-$25,428/yr</div>
-        </div>
-      </div>
-    </div>
-
+  <!-- ==================== POSSIBLE INCOME ==================== -->
+  <div class="section">
+    <div class="section-title">Possible / Hoped-For Income <span>$70,000</span></div>
+    <table>
+      <thead><tr><th>Source</th><th>Status</th><th>Timeline</th><th class="right">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Friend (Gersaw) Repayment</td><td><span class="tag tag-blue">Possible</span></td><td>$10,000/mo starting Mar 15 (4 months)</td><td>$40,000</td></tr>
+        <tr><td>Hotel Artwork Deal</td><td><span class="tag tag-blue">Possible</span></td><td>~$15k around Apr 15, ~$15k around Jun 15</td><td>$30,000</td></tr>
+        <tr class="row-total"><td colspan="3">Total Possible Extra Income</td><td>$70,000</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Note:</strong> These are NOT counted in the confirmed income. If both come through, the annual shortfall drops from -$76,548 to just -$6,548.</div>
   </div>
 
-  <!-- ==================== CASHFLOW VIEW ==================== -->
-  <div id="view-cashflow" class="view">
+  <!-- ==================== EXPENSES ==================== -->
+  <div class="section">
+    <div class="section-title">Expenses Summary <span>$183,264 / year</span></div>
+    <table>
+      <thead><tr><th>Category</th><th>Type</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
+      <tbody>
+        <tr><td>Insurance (all policies)</td><td><span class="tag tag-purple">Fixed</span></td><td>$4,810</td><td>$57,719</td></tr>
+        <tr><td>Kohler Support</td><td><span class="tag tag-purple">Fixed</span></td><td>$3,860</td><td>$46,320</td></tr>
+        <tr><td>Subscriptions &amp; Services</td><td><span class="tag tag-yellow">Mixed</span></td><td>$2,800</td><td>$33,600</td></tr>
+        <tr><td>Dining &amp; Entertainment</td><td><span class="tag tag-red">Variable</span></td><td>$1,200</td><td>$14,400</td></tr>
+        <tr><td>Groceries &amp; Merchandise</td><td><span class="tag tag-red">Variable</span></td><td>$800</td><td>$9,600</td></tr>
+        <tr><td>Property Taxes</td><td><span class="tag tag-purple">Fixed</span></td><td>$607</td><td>$7,287</td></tr>
+        <tr><td>Gas &amp; Auto</td><td><span class="tag tag-red">Variable</span></td><td>$400</td><td>$4,800</td></tr>
+        <tr><td>Travel</td><td><span class="tag tag-red">Variable</span></td><td>$250</td><td>$3,000</td></tr>
+        <tr><td>Miscellaneous</td><td><span class="tag tag-red">Variable</span></td><td>$545</td><td>$6,538</td></tr>
+        <tr class="row-total"><td colspan="2">TOTAL EXPENSES</td><td>$15,272</td><td>$183,264</td></tr>
+      </tbody>
+    </table>
+    <div class="alert"><strong>The big three:</strong> Insurance ($57.7k) + Kohler Support ($46.3k) + Subscriptions ($33.6k) = $137,639/yr — that's 75% of all expenses.</div>
+  </div>
 
-    <!-- MONTHLY CASH FLOW -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>2026 Monthly Cash Flow Projection</h2></div>
-        <span class="toggle-icon">&#9660;</span>
+  <!-- ==================== SCENARIOS ==================== -->
+  <div class="section">
+    <div class="section-title">2026 Scenarios</div>
+    <div class="scenarios">
+      <div class="scenario-box" style="background:#dc2626; color:white">
+        <h3>Base Case</h3>
+        <div class="big-num">-$76,548</div>
+        <p>Confirmed income only</p>
       </div>
-      <div class="section-body open">
-        <div class="chart-container" style="height:380px">
-          <canvas id="cashflowChart"></canvas>
-        </div>
-
-        <table style="margin-top:20px; font-size:13px">
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Confirmed In</th>
-              <th>Possible In</th>
-              <th>Expenses</th>
-              <th>Remodel</th>
-              <th>Net (Confirmed)</th>
-              <th>Net (Best Case)</th>
-            </tr>
-          </thead>
-          <tbody id="cashflowTable"></tbody>
-        </table>
-
-        <div class="note-box" style="margin-top:16px">
-          <strong>Legend:</strong> "Confirmed" = rental + Stafftopia + WFCS + Jeff Rust (while active). "Possible" = Gersaw repayment + Hotel artwork deal. "Best Case" = all income realized.
-        </div>
+      <div class="scenario-box" style="background:#2563eb; color:white">
+        <h3>+ Friend Repay ($40k)</h3>
+        <div class="big-num">-$36,548</div>
+        <p>Gersaw pays $10k/mo</p>
       </div>
-    </div>
-
-    <!-- SCENARIO TOGGLE -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div><h2>Interactive Scenario Planner</h2></div>
-        <span class="toggle-icon">&#9660;</span>
-      </div>
-      <div class="section-body">
-        <p style="color:var(--text-light); margin-bottom:16px; font-size:14px">Toggle possible income sources on/off to see impact on annual cash flow.</p>
-
-        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px">
-          <label style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8fafc; border-radius:8px; cursor:pointer">
-            <input type="checkbox" id="toggle-gersaw" onchange="updateScenario()" style="width:20px; height:20px; accent-color:var(--blue)">
-            <div>
-              <div style="font-weight:700">Gersaw Repayment: $40,000</div>
-              <div style="font-size:13px; color:var(--text-light)">$10,000/mo for 4 months starting March 15</div>
-            </div>
-          </label>
-          <label style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8fafc; border-radius:8px; cursor:pointer">
-            <input type="checkbox" id="toggle-hotel" onchange="updateScenario()" style="width:20px; height:20px; accent-color:var(--blue)">
-            <div>
-              <div style="font-weight:700">Hotel Artwork Deal: $30,000</div>
-              <div style="font-size:13px; color:var(--text-light)">~$15,000 around April 15, ~$15,000 around June 15</div>
-            </div>
-          </label>
-          <label style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:#f8fafc; border-radius:8px; cursor:pointer">
-            <input type="checkbox" id="toggle-savings" onchange="updateScenario()" style="width:20px; height:20px; accent-color:var(--green)">
-            <div>
-              <div style="font-weight:700">Implement Savings Plan: ~$15,000/yr</div>
-              <div style="font-size:13px; color:var(--text-light)">Cancel Instacart, shop insurance, cap Kohler CC, reduce dining</div>
-            </div>
-          </label>
-        </div>
-
-        <div id="scenario-result" style="padding:24px; border-radius:12px; text-align:center; background:linear-gradient(135deg,#dc2626,#b91c1c); color:white">
-          <div style="font-size:13px; text-transform:uppercase; letter-spacing:1px; opacity:0.9">Projected 2026 Annual Result</div>
-          <div id="scenario-amount" style="font-size:42px; font-weight:800; margin:8px 0">-$76,548</div>
-          <div id="scenario-label" style="font-size:14px; opacity:0.85">Base case: confirmed income only, no savings changes</div>
-        </div>
+      <div class="scenario-box" style="background:#16a34a; color:white">
+        <h3>+ Friend + Hotel ($70k)</h3>
+        <div class="big-num">-$6,548</div>
+        <p>Both deals come through</p>
       </div>
     </div>
+    <div class="alert"><strong>Critical:</strong> After Jeff Rust ends (~May), confirmed income drops to $7,850/mo vs $15,272/mo expenses = <strong>$7,422/mo gap</strong>. New income or major cuts needed.</div>
+  </div>
 
+  <!-- ==================== KOHLER SUPPORT ==================== -->
+  <div class="section">
+    <div class="section-title">Kohler Support <span>$46,320 / year</span></div>
+    <table>
+      <thead><tr><th>Item</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
+      <tbody>
+        <tr><td>Rent (Boise house equivalent)</td><td>$860</td><td>$10,320</td></tr>
+        <tr><td>Credit Card Payment</td><td>$2,000</td><td>$24,000</td></tr>
+        <tr><td>Stafftopia Salary (to Kohler)</td><td>$1,000</td><td>$12,000</td></tr>
+        <tr class="row-total"><td>TOTAL KOHLER</td><td>$3,860</td><td>$46,320</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Note:</strong> The $2,000/mo credit card is $24k/yr alone. Capping or reducing this is one of the biggest savings levers.</div>
+  </div>
+
+  <!-- ==================== SUBSCRIPTIONS ==================== -->
+  <div class="section">
+    <div class="section-title">Subscriptions &amp; Services <span>~$33,600 / year</span></div>
+    <table>
+      <thead><tr><th>Service</th><th>Category</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
+      <tbody>
+        <tr class="row-cancel"><td>Instacart+ Membership <span class="tag tag-red">CANCEL</span></td><td>Grocery Delivery</td><td>$99</td><td>$1,188</td></tr>
+        <tr><td>Gas/Heating (Ketchum)</td><td>Utilities</td><td>$250</td><td>$3,000</td></tr>
+        <tr><td>Claude AI (Anthropic)</td><td>AI Tools</td><td>$200</td><td>$2,400</td></tr>
+        <tr><td>Electricity (Ketchum)</td><td>Utilities</td><td>$200</td><td>$2,400</td></tr>
+        <tr><td>Apple Services Bundle</td><td>Tech/Media</td><td>$150</td><td>$1,800</td></tr>
+        <tr><td>Electricity (Boise)</td><td>Utilities</td><td>$120</td><td>$1,440</td></tr>
+        <tr><td>Internet (Ketchum)</td><td>Utilities</td><td>$100</td><td>$1,200</td></tr>
+        <tr><td>Cell Phone (Lisa)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
+        <tr><td>Cell Phone (Kohler)</td><td>Communication</td><td>$85</td><td>$1,020</td></tr>
+        <tr><td>Water/Sewer (Ketchum)</td><td>Utilities</td><td>$80</td><td>$960</td></tr>
+        <tr><td>Gym / Fitness</td><td>Health</td><td>$75</td><td>$900</td></tr>
+        <tr><td>Internet (Boise)</td><td>Utilities</td><td>$70</td><td>$840</td></tr>
+        <tr><td>Adobe Creative Cloud</td><td>Creative</td><td>$55</td><td>$660</td></tr>
+        <tr><td>Streaming (Netflix, etc.)</td><td>Entertainment</td><td>$50</td><td>$600</td></tr>
+        <tr><td>Domain / Hosting</td><td>Business</td><td>$50</td><td>$600</td></tr>
+        <tr><td>Water/Sewer (Boise)</td><td>Utilities</td><td>$50</td><td>$600</td></tr>
+        <tr><td>Trash/Recycling</td><td>Utilities</td><td>$40</td><td>$480</td></tr>
+        <tr><td>Quickbooks / Accounting</td><td>Business</td><td>$40</td><td>$480</td></tr>
+        <tr><td>ChatGPT Plus</td><td>AI Tools</td><td>$20</td><td>$240</td></tr>
+        <tr><td>Cloud Storage</td><td>Tech</td><td>$20</td><td>$240</td></tr>
+        <tr><td>Zoom Pro</td><td>Communication</td><td>$16</td><td>$192</td></tr>
+        <tr><td>Figma</td><td>Design</td><td>$15</td><td>$180</td></tr>
+        <tr><td>Security / VPN</td><td>Tech</td><td>$15</td><td>$180</td></tr>
+        <tr><td>Microsoft 365</td><td>Productivity</td><td>$13</td><td>$156</td></tr>
+        <tr><td>Google Workspace</td><td>Productivity</td><td>$12</td><td>$144</td></tr>
+        <tr><td>Spotify</td><td>Entertainment</td><td>$11</td><td>$132</td></tr>
+        <tr><td>Other Misc Subscriptions</td><td>Various</td><td>$599</td><td>$7,188</td></tr>
+        <tr class="row-total"><td colspan="2">TOTAL SUBSCRIPTIONS</td><td>$2,800</td><td>$33,600</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== INSURANCE ==================== -->
+  <div class="section">
+    <div class="section-title">Insurance Breakdown <span>$57,719 / year</span></div>
+    <table>
+      <thead><tr><th>Policy</th><th>Provider</th><th class="right">Monthly</th><th class="right">Annual</th></tr></thead>
+      <tbody>
+        <tr><td>Health Insurance (Lisa)</td><td>Marketplace</td><td>$1,100</td><td>$13,200</td></tr>
+        <tr><td>Auto Insurance (3 vehicles)</td><td>Various</td><td>$600</td><td>$7,200</td></tr>
+        <tr><td>Health Insurance (Kohler)</td><td>Marketplace</td><td>$450</td><td>$5,400</td></tr>
+        <tr><td>Mom's Supplemental</td><td>Medicare Supp</td><td>$375</td><td>$4,500</td></tr>
+        <tr><td>Life Insurance</td><td>Various</td><td>$350</td><td>$4,200</td></tr>
+        <tr><td>Homeowners (Bullion)</td><td>Safeco/Liberty</td><td>$208</td><td>$2,497</td></tr>
+        <tr><td>Business / Liability</td><td>Various</td><td>$200</td><td>$2,400</td></tr>
+        <tr><td>Homeowners (Ketchum)</td><td>Est.</td><td>$133</td><td>$1,600</td></tr>
+        <tr><td>Homeowners (Aspen)</td><td>Safeco/Liberty</td><td>$125</td><td>$1,497</td></tr>
+        <tr><td>Umbrella Policy</td><td>Various</td><td>$125</td><td>$1,500</td></tr>
+        <tr><td>Dental (Lisa &amp; Kohler)</td><td>Various</td><td>$120</td><td>$1,440</td></tr>
+        <tr><td>Homeowners (Boise)</td><td>Est.</td><td>$100</td><td>$1,200</td></tr>
+        <tr><td>Pet Insurance</td><td>Various</td><td>$85</td><td>$1,020</td></tr>
+        <tr><td>Flood (Ketchum)</td><td>NFIP</td><td>$84</td><td>$1,008</td></tr>
+        <tr><td>Jewelry / Valuables</td><td>Various</td><td>$73</td><td>$876</td></tr>
+        <tr><td>Earthquake (Ketchum)</td><td>Est.</td><td>$60</td><td>$720</td></tr>
+        <tr><td>EPLI / D&amp;O</td><td>Est.</td><td>$58</td><td>$700</td></tr>
+        <tr><td>Workers Comp</td><td>Idaho</td><td>$50</td><td>$600</td></tr>
+        <tr><td>Cyber Liability</td><td>Est.</td><td>$48</td><td>$581</td></tr>
+        <tr><td>Vision</td><td>Various</td><td>$40</td><td>$480</td></tr>
+        <tr><td>Storage Unit</td><td>Est.</td><td>$25</td><td>$300</td></tr>
+        <tr class="row-total"><td colspan="2">TOTAL INSURANCE</td><td>$4,810</td><td>$57,719</td></tr>
+      </tbody>
+    </table>
+    <div class="good"><strong>Savings opportunity:</strong> Bundling and shopping insurance could save $4,000-$6,000/yr. Some policies marked "Est." need verification.</div>
+  </div>
+
+  <!-- ==================== PROPERTIES ==================== -->
+  <div class="section">
+    <div class="section-title">Properties <span>4 Properties, No Mortgages</span></div>
+    <table>
+      <thead><tr><th>Property</th><th>Parcels</th><th class="right">Annual Tax</th><th class="right">Insurance</th><th class="right">Rent Income</th></tr></thead>
+      <tbody>
+        <tr><td>130 E Bullion, Hailey</td><td>2 parcels</td><td>$2,028</td><td>$2,497</td><td>$1,200/mo</td></tr>
+        <tr><td>217 Aspen Dr, Hailey</td><td>1 parcel</td><td>$1,659</td><td>$1,497</td><td>$900/mo</td></tr>
+        <tr><td>511 N Main, Ketchum</td><td>1 parcel</td><td>$2,800</td><td>$1,600</td><td>$1,500/mo</td></tr>
+        <tr><td>2825 Tumbleweed, Boise</td><td>1 parcel</td><td>$800</td><td>$1,200</td><td>Kohler lives here</td></tr>
+        <tr class="row-total"><td>TOTALS</td><td></td><td>$7,287</td><td>$6,794</td><td>$3,600/mo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== REMODEL ==================== -->
+  <div class="section">
+    <div class="section-title">Ketchum Remodel <span>$13,435 total</span></div>
+    <table>
+      <thead><tr><th>Item</th><th>When</th><th class="right">Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Roof Replacement</td><td>Summer 2026</td><td>$8,500</td></tr>
+        <tr><td>Gutters &amp; Drainage</td><td>With roof work</td><td>$1,800</td></tr>
+        <tr><td>Interior Paint &amp; Patch</td><td>September 2026</td><td>$2,135</td></tr>
+        <tr><td>Misc Repairs</td><td>Ongoing</td><td>$1,000</td></tr>
+        <tr class="row-total"><td>TOTAL REMODEL</td><td></td><td>$13,435</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Payment plan:</strong> ~$6,700 deposit around April 2026, remaining ~$6,735 on completion around September 2026.</div>
+  </div>
+
+  <!-- ==================== CASH FLOW ==================== -->
+  <div class="section">
+    <div class="section-title">2026 Monthly Cash Flow</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th class="right">Confirmed In</th>
+          <th class="right">Possible In</th>
+          <th class="right">Expenses</th>
+          <th class="right">Remodel</th>
+          <th class="right">Net (Confirmed)</th>
+          <th class="right">Net (Best Case)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Jan</td><td>$12,022</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-negative">-$3,250</td></tr>
+        <tr><td>Feb</td><td>$12,022</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-negative">-$3,250</td></tr>
+        <tr><td>Mar</td><td>$12,022</td><td>$10,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-positive">+$6,750</td></tr>
+        <tr style="background:rgba(245,146,47,0.1)"><td>Apr</td><td>$12,022</td><td>$25,000</td><td>$15,272</td><td>$6,700</td><td class="cf-negative">-$9,950</td><td class="cf-positive">+$15,050</td></tr>
+        <tr><td>May</td><td>$12,022</td><td>$10,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$3,250</td><td class="cf-positive">+$6,750</td></tr>
+        <tr><td>Jun</td><td>$7,850</td><td>$25,000</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-positive">+$17,578</td></tr>
+        <tr><td>Jul</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
+        <tr><td>Aug</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
+        <tr style="background:rgba(245,146,47,0.1)"><td>Sep</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$6,735</td><td class="cf-negative">-$14,157</td><td class="cf-negative">-$14,157</td></tr>
+        <tr><td>Oct</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
+        <tr><td>Nov</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
+        <tr><td>Dec</td><td>$7,850</td><td>$0</td><td>$15,272</td><td>$0</td><td class="cf-negative">-$7,422</td><td class="cf-negative">-$7,422</td></tr>
+        <tr class="row-total">
+          <td>ANNUAL</td>
+          <td>$113,060</td>
+          <td>$70,000</td>
+          <td>$183,264</td>
+          <td>$13,435</td>
+          <td class="cf-negative">-$83,639</td>
+          <td class="cf-negative">-$13,639</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Orange rows</strong> = months with remodel payments. April is the tightest month (remodel deposit + expenses). After May, Jeff Rust income ends.</div>
+  </div>
+
+  <!-- ==================== SAVINGS ==================== -->
+  <div class="section">
+    <div class="section-title">Savings Opportunities</div>
+    <div class="savings-row">
+      <div><div class="savings-name">Cancel Instacart</div><div class="savings-desc">Per your instruction &mdash; shop groceries directly</div></div>
+      <div class="savings-amt">$1,188/yr</div>
+    </div>
+    <div class="savings-row">
+      <div><div class="savings-name">Drop ChatGPT Plus</div><div class="savings-desc">Consolidate to Claude only</div></div>
+      <div class="savings-amt">$240/yr</div>
+    </div>
+    <div class="savings-row">
+      <div><div class="savings-name">Shop &amp; Bundle Insurance</div><div class="savings-desc">Compare rates, bundle policies &mdash; 10-15% potential</div></div>
+      <div class="savings-amt">$4,000-$6,000/yr</div>
+    </div>
+    <div class="savings-row">
+      <div><div class="savings-name">Audit Apple Services</div><div class="savings-desc">$150/mo bundle &mdash; check for unused items</div></div>
+      <div class="savings-amt">$600-$1,200/yr</div>
+    </div>
+    <div class="savings-row">
+      <div><div class="savings-name">Cap Kohler Credit Card</div><div class="savings-desc">$2,000/mo = $24k/yr &mdash; reduce by 25-50%?</div></div>
+      <div class="savings-amt">$6,000-$12,000/yr</div>
+    </div>
+    <div class="savings-row">
+      <div><div class="savings-name">Reduce Dining Out</div><div class="savings-desc">Currently ~$1,200/mo from transaction history</div></div>
+      <div class="savings-amt">$2,400-$4,800/yr</div>
+    </div>
+    <div class="savings-total">
+      <div class="savings-name">TOTAL POTENTIAL SAVINGS</div>
+      <div class="savings-amt">$14,428 - $25,428/yr</div>
+    </div>
+  </div>
+
+  <!-- ==================== INTERACTIVE PLANNER ==================== -->
+  <div class="planner-box">
+    <h3>What-If Scenario Planner</h3>
+    <p style="color:#94a3b8; margin-bottom:12px; font-size:14px">Check the boxes to see how your annual picture changes:</p>
+
+    <label class="toggle-row">
+      <input type="checkbox" id="chk-gersaw" onchange="recalc()">
+      <div><div class="toggle-label">Gersaw Repayment: $40,000</div><div class="toggle-desc">$10,000/mo for 4 months starting March 15</div></div>
+    </label>
+
+    <label class="toggle-row">
+      <input type="checkbox" id="chk-hotel" onchange="recalc()">
+      <div><div class="toggle-label">Hotel Artwork Deal: $30,000</div><div class="toggle-desc">~$15k April 15, ~$15k June 15</div></div>
+    </label>
+
+    <label class="toggle-row">
+      <input type="checkbox" id="chk-savings" onchange="recalc()">
+      <div><div class="toggle-label">Implement Savings Plan: ~$15,000/yr</div><div class="toggle-desc">Cancel Instacart, shop insurance, cap Kohler CC, reduce dining</div></div>
+    </label>
+
+    <div id="result-box" class="result-display" style="background:#dc2626; color:white">
+      <div class="result-label">Projected 2026 Annual Result</div>
+      <div class="result-number" id="result-num">-$89,983</div>
+      <div class="result-sub" id="result-sub">Base case: confirmed income only, includes remodel costs</div>
+    </div>
   </div>
 
 </div>
 
 <footer>
-  Lisa Wood Financial Dashboard &bull; Generated Feb 28, 2026 &bull; Data from Wells Fargo, Capital One, AmEx statements + manual entries
+  Lisa Wood Financial Dashboard &bull; Generated February 28, 2026 &bull; Data: Wells Fargo, Capital One, AmEx + manual entries
 </footer>
 
 <script>
-// ===== SECTION TOGGLE =====
-function toggleSection(header) {
-  var body = header.nextElementSibling;
-  var icon = header.querySelector('.toggle-icon');
-  if (body.classList.contains('open')) {
-    body.classList.remove('open');
-    icon.classList.remove('open');
-  } else {
-    body.classList.add('open');
-    icon.classList.add('open');
-  }
-}
-
-// ===== VIEW SWITCHING =====
-function switchView(viewName) {
-  var views = document.querySelectorAll('.view');
-  var buttons = document.querySelectorAll('.view-toggle button');
-  var i;
-
-  for (i = 0; i < views.length; i++) {
-    views[i].classList.remove('active');
-  }
-  for (i = 0; i < buttons.length; i++) {
-    buttons[i].classList.remove('active');
-  }
-
-  document.getElementById('view-' + viewName).classList.add('active');
-
-  var btnMap = ['overview', 'detail', 'cashflow'];
-  for (i = 0; i < buttons.length; i++) {
-    if (btnMap[i] === viewName) {
-      buttons[i].classList.add('active');
-    }
-  }
-
-  // Initialize charts when their view is first shown
-  if (viewName === 'cashflow' && !window.cashflowChartDone) {
-    window.cashflowChartDone = true;
-    setTimeout(function() { initCashflowChart(); }, 100);
-  }
-  if (viewName === 'overview' && !window.donutChartDone) {
-    window.donutChartDone = true;
-    setTimeout(function() { initDonutChart(); }, 100);
-  }
-}
-
-// ===== CASH FLOW DATA =====
-var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-var confirmedIncome = [
-  12022, 12022, 12022, 12022, 12022,
-  7850, 7850, 7850, 7850, 7850, 7850, 7850
-];
-
-var possibleIncome = [
-  0, 0, 10000, 25000, 10000, 25000,
-  0, 0, 0, 0, 0, 0
-];
-
-var baseExpenses = 15272;
-
-var remodelCosts = [0, 0, 0, 6700, 0, 0, 0, 0, 6735, 0, 0, 0];
-
-// Build cashflow table
-function buildCashflowTable() {
-  var tbody = document.getElementById('cashflowTable');
-  if (!tbody) return;
-  var html = '';
-  var cumConfirmed = 0;
-  var cumBest = 0;
-  var i;
-
-  for (i = 0; i < 12; i++) {
-    var netConfirmed = confirmedIncome[i] - baseExpenses - remodelCosts[i];
-    var netBest = confirmedIncome[i] + possibleIncome[i] - baseExpenses - remodelCosts[i];
-    cumConfirmed += netConfirmed;
-    cumBest += netBest;
-
-    var rowStyle = remodelCosts[i] > 0 ? ' style="background:#fef3c7"' : '';
-    var cColor = netConfirmed >= 0 ? '#16a34a' : '#dc2626';
-    var bColor = netBest >= 0 ? '#16a34a' : '#dc2626';
-
-    html += '<tr' + rowStyle + '>';
-    html += '<td style="font-weight:700">' + months[i] + ' 2026</td>';
-    html += '<td>$' + confirmedIncome[i].toLocaleString() + '</td>';
-    html += '<td style="color:#2563eb">$' + possibleIncome[i].toLocaleString() + '</td>';
-    html += '<td>$' + baseExpenses.toLocaleString() + '</td>';
-    html += '<td>' + (remodelCosts[i] > 0 ? '$' + remodelCosts[i].toLocaleString() : '\u2014') + '</td>';
-    html += '<td style="color:' + cColor + '; font-weight:700">' + (netConfirmed < 0 ? '-' : '') + '$' + Math.abs(netConfirmed).toLocaleString() + '</td>';
-    html += '<td style="color:' + bColor + '; font-weight:700">' + (netBest < 0 ? '-' : '') + '$' + Math.abs(netBest).toLocaleString() + '</td>';
-    html += '</tr>';
-  }
-
-  // Annual totals
-  var totalConfirmed = 0, totalPossible = 0, totalRemodel = 0;
-  for (i = 0; i < 12; i++) {
-    totalConfirmed += confirmedIncome[i];
-    totalPossible += possibleIncome[i];
-    totalRemodel += remodelCosts[i];
-  }
-  var annualExpenses = baseExpenses * 12;
-  var annualNetC = totalConfirmed - annualExpenses - totalRemodel;
-  var annualNetB = totalConfirmed + totalPossible - annualExpenses - totalRemodel;
-
-  html += '<tr class="total-row">';
-  html += '<td>ANNUAL TOTAL</td>';
-  html += '<td>$' + totalConfirmed.toLocaleString() + '</td>';
-  html += '<td style="color:#2563eb">$' + totalPossible.toLocaleString() + '</td>';
-  html += '<td>$' + annualExpenses.toLocaleString() + '</td>';
-  html += '<td>$' + totalRemodel.toLocaleString() + '</td>';
-  html += '<td style="color:' + (annualNetC >= 0 ? '#16a34a' : '#dc2626') + '">' + (annualNetC < 0 ? '-' : '') + '$' + Math.abs(annualNetC).toLocaleString() + '</td>';
-  html += '<td style="color:' + (annualNetB >= 0 ? '#16a34a' : '#dc2626') + '">' + (annualNetB < 0 ? '-' : '') + '$' + Math.abs(annualNetB).toLocaleString() + '</td>';
-  html += '</tr>';
-
-  tbody.innerHTML = html;
-}
-
-// ===== CHARTS =====
-function initCashflowChart() {
-  var canvas = document.getElementById('cashflowChart');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-
-  var cumConfirmed = [];
-  var cumBest = [];
-  var running1 = 0;
-  var running2 = 0;
-  var expenseData = [];
-  var i;
-
-  for (i = 0; i < 12; i++) {
-    running1 += confirmedIncome[i] - baseExpenses - remodelCosts[i];
-    running2 += confirmedIncome[i] + possibleIncome[i] - baseExpenses - remodelCosts[i];
-    cumConfirmed.push(running1);
-    cumBest.push(running2);
-    expenseData.push(-(baseExpenses + remodelCosts[i]));
-  }
-
-  var labels = [];
-  for (i = 0; i < 12; i++) {
-    labels.push(months[i] + ' 2026');
-  }
-
-  new Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Confirmed Income',
-          data: confirmedIncome,
-          backgroundColor: '#16a34a',
-          borderRadius: 4,
-          order: 2
-        },
-        {
-          label: 'Possible Income',
-          data: possibleIncome,
-          backgroundColor: '#3b82f6',
-          borderRadius: 4,
-          order: 2
-        },
-        {
-          label: 'Expenses + Remodel',
-          data: expenseData,
-          backgroundColor: '#ef4444',
-          borderRadius: 4,
-          order: 2
-        },
-        {
-          label: 'Cumulative (Confirmed)',
-          data: cumConfirmed,
-          type: 'line',
-          borderColor: '#f59e0b',
-          backgroundColor: 'transparent',
-          borderWidth: 3,
-          pointRadius: 4,
-          pointBackgroundColor: '#f59e0b',
-          tension: 0.3,
-          order: 1
-        },
-        {
-          label: 'Cumulative (Best Case)',
-          data: cumBest,
-          type: 'line',
-          borderColor: '#22c55e',
-          backgroundColor: 'transparent',
-          borderWidth: 3,
-          borderDash: [6, 3],
-          pointRadius: 4,
-          pointBackgroundColor: '#22c55e',
-          tension: 0.3,
-          order: 1
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { font: { size: 11 }, usePointStyle: true, padding: 16 }
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              var val = context.parsed.y;
-              var sign = val < 0 ? '-' : '';
-              return context.dataset.label + ': ' + sign + '$' + Math.abs(val).toLocaleString();
-            }
-          }
-        }
-      },
-      scales: {
-        x: { grid: { display: false } },
-        y: {
-          grid: { color: '#e2e8f0' },
-          ticks: {
-            callback: function(val) {
-              var sign = val < 0 ? '-' : '';
-              return sign + '$' + Math.abs(val / 1000).toFixed(0) + 'k';
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-function initDonutChart() {
-  var canvas = document.getElementById('expenseDonut');
-  if (!canvas) return;
-
-  new Chart(canvas, {
-    type: 'doughnut',
-    data: {
-      labels: ['Insurance', 'Kohler Support', 'Subscriptions', 'Property Tax', 'Dining', 'Gas/Auto', 'Groceries', 'Travel', 'Misc'],
-      datasets: [{
-        data: [57719, 46320, 33600, 7287, 14400, 4800, 9600, 3000, 6538],
-        backgroundColor: [
-          '#2563eb', '#7c3aed', '#f59e0b', '#0d9488', '#ef4444', '#64748b', '#22c55e', '#ec4899', '#f97316'
-        ],
-        borderWidth: 2,
-        borderColor: '#ffffff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'right',
-          labels: { font: { size: 12 }, padding: 8, usePointStyle: true }
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              var total = 183264;
-              var pct = (context.parsed / total * 100).toFixed(1);
-              return context.label + ': $' + context.parsed.toLocaleString() + ' (' + pct + '%)';
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-// ===== SCENARIO PLANNER =====
-function updateScenario() {
-  var gersaw = document.getElementById('toggle-gersaw').checked;
-  var hotel = document.getElementById('toggle-hotel').checked;
-  var savings = document.getElementById('toggle-savings').checked;
-
-  var base = -76548;
-  var remodel = -13435;
-  var result = base + remodel;
+function recalc() {
+  var base = -89983;
+  var g = document.getElementById('chk-gersaw').checked;
+  var h = document.getElementById('chk-hotel').checked;
+  var s = document.getElementById('chk-savings').checked;
+  var result = base;
   var parts = [];
 
-  if (gersaw) {
-    result += 40000;
-    parts.push('Gersaw +$40k');
-  }
-  if (hotel) {
-    result += 30000;
-    parts.push('Hotel +$30k');
-  }
-  if (savings) {
-    result += 15000;
-    parts.push('Savings +$15k');
-  }
+  if (g) { result += 40000; parts.push('Gersaw +$40k'); }
+  if (h) { result += 30000; parts.push('Hotel +$30k'); }
+  if (s) { result += 15000; parts.push('Savings +$15k'); }
 
-  var el = document.getElementById('scenario-amount');
-  var label = document.getElementById('scenario-label');
-  var container = document.getElementById('scenario-result');
+  var el = document.getElementById('result-num');
+  var sub = document.getElementById('result-sub');
+  var box = document.getElementById('result-box');
 
   if (result >= 0) {
-    el.textContent = '+$' + Math.abs(result).toLocaleString();
-    container.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
-    label.textContent = 'Surplus! ' + parts.join(' + ');
+    el.textContent = '+$' + result.toLocaleString();
+    box.style.background = '#16a34a';
+    sub.textContent = 'Surplus! ' + parts.join(' + ');
   } else if (result > -30000) {
     el.textContent = '-$' + Math.abs(result).toLocaleString();
-    container.style.background = 'linear-gradient(135deg, #d97706, #b45309)';
-    label.textContent = 'Manageable gap. ' + parts.join(' + ');
+    box.style.background = '#d97706';
+    sub.textContent = 'Manageable gap. ' + parts.join(' + ');
   } else {
     el.textContent = '-$' + Math.abs(result).toLocaleString();
-    container.style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
-    label.textContent = parts.length > 0 ? 'Significant shortfall. ' + parts.join(' + ') : 'Base case: confirmed income only, no savings changes';
+    box.style.background = '#dc2626';
+    sub.textContent = parts.length > 0 ? parts.join(' + ') : 'Base case: confirmed income only, includes remodel costs';
   }
 }
-
-// ===== INIT ON LOAD =====
-buildCashflowTable();
-
-// Init the donut chart after DOM is ready (overview is the default view)
-window.addEventListener('load', function() {
-  initDonutChart();
-  window.donutChartDone = true;
-
-  // Auto-open the first section in overview
-  var firstHeader = document.querySelector('#view-overview .section-header');
-  if (firstHeader) {
-    toggleSection(firstHeader);
-  }
-});
 </script>
 
 </body>
