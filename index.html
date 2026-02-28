@@ -8,95 +8,126 @@
 <style>
 :root { --navy: #1a2744; --orange: #f5922f; --light: #f8f9fa; --green: #27ae60; --red: #e74c3c; --gray: #6c757d; --blue: #3498db; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--light); color: #333; font-size: 14px; }
-.header { background: var(--navy); color: white; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-.header h1 { font-size: 20px; font-weight: 600; }
-.header .sub { color: var(--orange); font-size: 12px; }
-.container { max-width: 1440px; margin: 0 auto; padding: 16px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 16px; }
-.card { background: white; border-radius: 10px; padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
-.card h2 { font-size: 14px; color: var(--navy); margin-bottom: 10px; border-bottom: 2px solid var(--orange); padding-bottom: 6px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--light); color: #333; }
+
+/* Header - V1 style */
+.header { background: var(--navy); color: white; padding: 20px 32px; }
+.header h1 { font-size: 22px; font-weight: 600; }
+.header .sub { color: var(--orange); font-size: 13px; margin-top: 4px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+/* Query Bar - V1 style */
+.query-section { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
+.query-bar { display: flex; gap: 8px; }
+.query-input { flex: 1; padding: 14px 20px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
+.query-input:focus { border-color: var(--orange); outline: none; box-shadow: 0 0 0 3px rgba(245,146,47,0.15); }
+.query-btn { padding: 14px 28px; background: var(--navy); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.query-btn:hover { background: var(--orange); }
+.query-hints { margin-top: 10px; font-size: 12px; color: var(--gray); }
+.query-hints span { background: #eee; padding: 2px 8px; border-radius: 4px; margin: 0 3px; cursor: pointer; }
+.query-hints span:hover { background: var(--orange); color: white; }
+.query-result { margin-top: 16px; padding: 16px; background: #f0f7ff; border-radius: 8px; display: none; font-size: 14px; line-height: 1.7; }
+.query-result h3 { color: var(--navy); margin-bottom: 8px; font-size: 16px; }
+.query-result .amount { font-size: 24px; font-weight: 700; }
+.query-result .amount.red { color: var(--red); }
+.query-result .amount.green { color: var(--green); }
+.query-result table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+.query-result th { background: var(--navy); color: white; padding: 6px 10px; text-align: left; }
+.query-result td { padding: 5px 10px; border-bottom: 1px solid #ddd; }
+
+/* Grid - V1 style */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.card h2 { font-size: 15px; color: var(--navy); margin-bottom: 12px; border-bottom: 2px solid var(--orange); padding-bottom: 6px; }
 .wide { grid-column: 1 / -1; }
-.metric { font-size: 26px; font-weight: 700; }
+.metric { font-size: 28px; font-weight: 700; }
 .metric.green { color: var(--green); } .metric.red { color: var(--red); } .metric.orange { color: var(--orange); }
 .metric-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
-.chart-container { position: relative; height: 280px; }
-.query-section { background: white; border-radius: 10px; padding: 18px; box-shadow: 0 1px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
-.query-bar { display: flex; gap: 8px; }
-.query-input { flex: 1; padding: 12px 16px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; }
-.query-input:focus { border-color: var(--orange); outline: none; box-shadow: 0 0 0 3px rgba(245,146,47,0.15); }
-.query-btn { padding: 12px 24px; background: var(--navy); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-.query-btn:hover { background: var(--orange); }
-.query-hints { margin-top: 8px; font-size: 11px; color: var(--gray); }
-.query-hints span { background: #eee; padding: 2px 7px; border-radius: 4px; margin: 0 2px; cursor: pointer; }
-.query-hints span:hover { background: var(--orange); color: white; }
-.query-result { margin-top: 14px; padding: 14px; background: #f0f7ff; border-radius: 8px; display: none; font-size: 13px; line-height: 1.6; }
-.query-result h3 { color: var(--navy); margin-bottom: 6px; }
-.query-result .amount { font-size: 22px; font-weight: 700; }
-.query-result .amount.red { color: var(--red); } .query-result .amount.green { color: var(--green); }
-.query-result table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
-.query-result th { background: var(--navy); color: white; padding: 5px 8px; text-align: left; }
-.query-result td { padding: 4px 8px; border-bottom: 1px solid #ddd; }
-.tabs { display: flex; gap: 0; margin-bottom: 14px; flex-wrap: wrap; }
-.tab { padding: 9px 18px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 13px; font-weight: 500; }
+
+/* Charts - V1 size */
+.chart-container { position: relative; height: 300px; }
+.chart-sm { height: 250px; }
+
+/* Tables - V1 style */
+table.data { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.data th { background: var(--navy); color: white; padding: 8px 10px; text-align: left; position: sticky; top: 0; }
+table.data td { padding: 6px 10px; border-bottom: 1px solid #eee; }
+table.data tr:hover td { background: #f0f4ff; }
+.scroll { max-height: 400px; overflow-y: auto; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.tag-biz { background: #dbeafe; color: #1e40af; }
+.tag-personal { background: #fef3c7; color: #92400e; }
+.tag-income { background: #d1fae5; color: #065f46; }
+.tag-expense { background: #fee2e2; color: #991b1b; }
+.tag-transfer { background: #e5e7eb; color: #4b5563; }
+
+/* Tabs - V1 style */
+.tabs { display: flex; gap: 0; margin-bottom: 16px; }
+.tab { padding: 10px 20px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 14px; font-weight: 500; }
 .tab:first-child { border-radius: 8px 0 0 8px; } .tab:last-child { border-radius: 0 8px 8px 0; }
 .tab.active { background: var(--navy); color: white; border-color: var(--navy); }
 .tab-content { display: none; } .tab-content.active { display: block; }
-table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
-table.data th { background: var(--navy); color: white; padding: 6px 8px; text-align: left; position: sticky; top: 0; }
-table.data td { padding: 5px 8px; border-bottom: 1px solid #eee; }
-table.data tr:hover td { background: #f0f4ff; }
-.scroll { max-height: 400px; overflow-y: auto; }
-.tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
-.tag-biz { background: #dbeafe; color: #1e40af; } .tag-personal { background: #fef3c7; color: #92400e; }
-.tag-income { background: #d1fae5; color: #065f46; } .tag-expense { background: #fee2e2; color: #991b1b; }
-.tag-transfer { background: #e5e7eb; color: #4b5563; }
-.filter-row { display: flex; gap: 5px; margin-bottom: 8px; flex-wrap: wrap; }
-.fbtn { padding: 3px 10px; border: 1px solid #ddd; border-radius: 14px; font-size: 11px; cursor: pointer; background: white; }
+
+/* Filters */
+.filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.acct-filter { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.fbtn { padding: 4px 12px; border: 1px solid #ddd; border-radius: 16px; font-size: 12px; cursor: pointer; background: white; }
 .fbtn.active { background: var(--navy); color: white; border-color: var(--navy); }
 .search-sm { padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; width: 100%; margin-bottom: 8px; }
 .search-sm:focus { border-color: var(--orange); outline: none; }
-.planner { background: linear-gradient(135deg, #1a2744 0%, #2c3e5a 100%); color: white; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
-.planner h2 { color: var(--orange); font-size: 18px; margin-bottom: 4px; border: none; padding: 0; }
-.planner .planner-sub { color: #8899aa; font-size: 12px; margin-bottom: 18px; }
-.planner-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-@media (max-width: 900px) { .planner-grid { grid-template-columns: 1fr; } }
-.planner-col h3 { color: var(--orange); font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.toggle-row label { font-size: 13px; flex: 1; }
-.toggle-row .amt { font-size: 13px; font-weight: 600; margin: 0 12px; min-width: 70px; text-align: right; color: #ff6b6b; }
-.switch { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #555; border-radius: 22px; transition: .3s; }
-.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .3s; }
-input:checked + .slider { background: var(--orange); }
-input:checked + .slider:before { transform: translateX(18px); }
-.input-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.input-row label { font-size: 13px; flex: 1; }
-.input-row input[type=number] { width: 90px; padding: 4px 8px; border-radius: 6px; border: 1px solid #555; background: #2c3e5a; color: white; font-size: 13px; text-align: right; }
-.input-row input[type=number]:focus { border-color: var(--orange); outline: none; }
-.input-row .note { font-size: 10px; color: #8899aa; margin-left: 8px; min-width: 60px; }
-.projection { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-top: 18px; }
-.proj-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; }
-.proj-row.total { border-top: 2px solid var(--orange); border-bottom: none; font-weight: 700; font-size: 18px; padding-top: 10px; margin-top: 6px; }
-.proj-row .val.green { color: #51cf66; } .proj-row .val.red { color: #ff6b6b; }
-.cut-item { padding: 10px; margin: 6px 0; background: #fff5f5; border-left: 3px solid var(--red); border-radius: 4px; font-size: 13px; }
+
+/* Cut list */
+.cut-item { padding: 12px 14px; margin: 8px 0; background: #fff5f5; border-left: 3px solid var(--red); border-radius: 4px; font-size: 14px; line-height: 1.6; }
 .cut-item.done { background: #f0fdf4; border-left-color: var(--green); }
 .cut-item .savings { color: var(--green); font-weight: 700; }
 .cut-item strong { color: var(--navy); }
+
+/* Budget Planner - clean style matching V1 */
+.planner { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; border: 2px solid var(--navy); }
+.planner h2 { font-size: 18px; color: var(--navy); margin-bottom: 4px; border-bottom: 2px solid var(--orange); padding-bottom: 8px; }
+.planner .planner-sub { color: var(--gray); font-size: 13px; margin-bottom: 20px; }
+.planner-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+@media (max-width: 900px) { .planner-grid { grid-template-columns: 1fr; } }
+.planner-col h3 { color: var(--navy); font-size: 14px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+
+/* Toggle rows */
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f0f0f0; }
+.toggle-row label { font-size: 14px; color: #333; flex: 1; }
+.toggle-row .amt { font-size: 14px; font-weight: 600; margin: 0 14px; min-width: 70px; text-align: right; color: var(--red); }
+.switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 24px; transition: .3s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .3s; }
+input:checked + .slider { background: var(--orange); }
+input:checked + .slider:before { transform: translateX(18px); }
+
+/* Income input rows */
+.input-row { display: flex; align-items: center; padding: 9px 0; border-bottom: 1px solid #f0f0f0; }
+.input-row label { font-size: 14px; color: #333; flex: 1; }
+.input-row input[type=number] { width: 100px; padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; background: white; color: #333; font-size: 14px; text-align: right; }
+.input-row input[type=number]:focus { border-color: var(--orange); outline: none; }
+.input-row .note { font-size: 11px; color: var(--gray); margin-left: 10px; min-width: 80px; }
+
+/* Projection panel */
+.projection { background: var(--navy); border-radius: 10px; padding: 20px; margin-top: 12px; color: white; }
+.proj-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 15px; }
+.proj-row.total { border-top: 2px solid var(--orange); border-bottom: none; font-weight: 700; font-size: 20px; padding-top: 12px; margin-top: 8px; }
+.proj-row .val.green { color: #51cf66; } .proj-row .val.red { color: #ff6b6b; }
 </style>
 </head>
 <body>
+
 <div class="header">
-    <div><h1>Budget Command Center</h1><div>Lisa Wood - Personal & Business</div></div>
-    <div class="sub">1803 transactions | 2025-01 to 2026-02 | February 28, 2026</div>
+    <h1>Lisa Wood - Budget Command Center</h1>
+    <div class="sub">All Accounts | 1803 transactions | 2025-01 to 2026-02 | Generated February 28, 2026</div>
 </div>
+
 <div class="container">
 
-<!-- QUERY -->
+<!-- QUERY BAR -->
 <div class="query-section">
     <div class="query-bar">
-        <input type="text" class="query-input" id="queryInput" placeholder="Ask anything... 'Dr Archie', 'insurance', 'Whole Foods', 'dining'" autofocus>
+        <input type="text" class="query-input" id="queryInput" placeholder="Ask me anything... e.g. 'Dr Archie', 'insurance', 'Whole Foods', 'dining in January'" autofocus>
         <button class="query-btn" onclick="runQuery()">Search</button>
     </div>
     <div class="query-hints">Try:
@@ -107,27 +138,59 @@ input:checked + .slider:before { transform: translateX(18px); }
         <span onclick="doQuery('dining')">dining</span>
         <span onclick="doQuery('Robinhood')">Robinhood</span>
         <span onclick="doQuery('Uber')">Uber</span>
-        <span onclick="doQuery('mortgage')">mortgage</span>
-        <span onclick="doQuery('Blue Cross')">Blue Cross</span>
+        <span onclick="doQuery('Costco')">Costco</span>
         <span onclick="doQuery('Archie')">Dr Archie</span>
+        <span onclick="doQuery('pet')">pets</span>
+        <span onclick="doQuery('Alma')">Alma</span>
+        <span onclick="doQuery('Blue Cross')">Blue Cross</span>
     </div>
     <div class="query-result" id="queryResult"></div>
+</div>
+
+<!-- TOP METRICS -->
+<div class="grid">
+    <div class="card">
+        <h2>Total Real Income</h2>
+        <div class="metric green">$263,247</div>
+        <div class="metric-label">107 deposits across 14 months</div>
+        <div class="metric-label">Avg $18,803/mo</div>
+    </div>
+    <div class="card">
+        <h2>Total Real Spending</h2>
+        <div class="metric red">$333,205</div>
+        <div class="metric-label">1448 expense transactions</div>
+        <div class="metric-label">Avg $23,800/mo</div>
+    </div>
+    <div class="card">
+        <h2>Net (Income - Expenses)</h2>
+        <div class="metric red">$-69,958</div>
+        <div class="metric-label">Over 14 months</div>
+        <div class="metric-label">Avg $-4,997/mo</div>
+    </div>
+    <div class="card">
+        <h2>Transfers Excluded</h2>
+        <div class="metric orange">248</div>
+        <div class="metric-label">Internal moves between your accounts</div>
+        <div class="metric-label">Not counted as income or expense</div>
+    </div>
 </div>
 
 <!-- BUDGET PLANNER -->
 <div class="planner">
     <h2>Budget Planner - What If?</h2>
-    <div class="planner-sub">Toggle expenses ON (active) or OFF (eliminated). Adjust income. Projection updates instantly.</div>
+    <div class="planner-sub">Toggle expenses ON (active) or OFF (eliminated). Adjust income amounts. Projection updates instantly.</div>
     <div class="planner-grid">
         <div class="planner-col">
             <h3>Monthly Expenses</h3>
             <div class="toggle-row"><label>Mortgage (Lane Ranch) PAID OFF</label><span class="amt">$2,803</span><label class="switch"><input type="checkbox" id="tog_mortgage" onchange="recalc()"><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Ram 1500 (Westmark) PAID OFF</label><span class="amt">$500</span><label class="switch"><input type="checkbox" id="tog_carpay" onchange="recalc()"><span class="slider"></span></label></div>
+            <div class="toggle-row"><label>Alma Chiro (Kohler) ENDING</label><span class="amt">$150</span><label class="switch"><input type="checkbox" id="tog_alma" onchange="recalc()"><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Safeco Insurance</label><span class="amt">$2,000</span><label class="switch"><input type="checkbox" id="tog_insurance" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Blue Cross Health Ins</label><span class="amt">$1,751</span><label class="switch"><input type="checkbox" id="tog_bluecross" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Delta Dental</label><span class="amt">$104</span><label class="switch"><input type="checkbox" id="tog_dental" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Healthy Paws Pet Ins</label><span class="amt">$85</span><label class="switch"><input type="checkbox" id="tog_petins" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Utilities (Power/Water)</label><span class="amt">$381</span><label class="switch"><input type="checkbox" id="tog_utilities" onchange="recalc()" checked><span class="slider"></span></label></div>
+            <div class="toggle-row"><label>Kohler Housing</label><span class="amt">$860</span><label class="switch"><input type="checkbox" id="tog_kohlerrent" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Kohler Salary</label><span class="amt">$1,000</span><label class="switch"><input type="checkbox" id="tog_kohler" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>Kohler Credit Card</label><span class="amt">$2,000</span><label class="switch"><input type="checkbox" id="tog_kohlercc" onchange="recalc()" checked><span class="slider"></span></label></div>
             <div class="toggle-row"><label>StorQuest Storage</label><span class="amt">$106</span><label class="switch"><input type="checkbox" id="tog_storage" onchange="recalc()" checked><span class="slider"></span></label></div>
@@ -142,47 +205,64 @@ input:checked + .slider:before { transform: translateX(18px); }
         </div>
         <div class="planner-col">
             <h3>Income Sources</h3>
-            <div class="input-row"><label>Elevate/Stafftopia</label><input type="number" id="inc_elevate" value="4173" onchange="recalc()"><span class="note">Ends ~May</span></div>
+            <div class="input-row"><label>Elevate/Stafftopia</label><input type="number" id="inc_elevate" value="4173" onchange="recalc()"><span class="note">Ends ~May 2026</span></div>
             <div class="input-row"><label>Stafftopia Transfer</label><input type="number" id="inc_stafftopia" value="2750" onchange="recalc()"><span class="note">Monthly</span></div>
             <div class="input-row"><label>WFCS Credit</label><input type="number" id="inc_wfcs" value="1500" onchange="recalc()"><span class="note">Monthly</span></div>
             <div class="input-row"><label>Rent Income</label><input type="number" id="inc_rent" value="1800" onchange="recalc()"><span class="note">Deposits</span></div>
-            <div class="input-row"><label>Gersaw Repayment</label><input type="number" id="inc_gersaw" value="10000" onchange="recalc()"><span class="note">$10k/mo goal</span></div>
-            <div class="input-row"><label>Hotel Deal (one-time/mo)</label><input type="number" id="inc_hotel" value="0" onchange="recalc()"><span class="note">If it closes</span></div>
+            <div class="input-row"><label>Gersaw Repayment</label><input type="number" id="inc_gersaw" value="10000" onchange="recalc()"><span class="note">Confirmed Mar-May</span></div>
+            <div class="input-row"><label>Hotel Deal (one-time)</label><input type="number" id="inc_hotel" value="0" onchange="recalc()"><span class="note">If it closes</span></div>
             <div class="input-row"><label>Other Income</label><input type="number" id="inc_other" value="0" onchange="recalc()"><span class="note">Side gigs</span></div>
-            <h3 style="margin-top:20px">Custom Adjustments</h3>
-            <div class="input-row"><label>Kohler Rent (expense)</label><input type="number" id="adj_rent" value="860" onchange="recalc()"><span class="note">Housing</span></div>
+
+            <h3 style="margin-top:24px">Kohler Costs (Summary)</h3>
+            <div style="background:#f0f7ff;border-radius:8px;padding:14px;font-size:14px;line-height:1.8;">
+                <div style="display:flex;justify-content:space-between"><span>Housing</span><strong style="color:var(--red)">$860/mo</strong></div>
+                <div style="display:flex;justify-content:space-between"><span>Salary</span><strong style="color:var(--red)">$1,000/mo</strong></div>
+                <div style="display:flex;justify-content:space-between"><span>Credit Card</span><strong style="color:var(--red)">$2,000/mo</strong></div>
+                <div style="display:flex;justify-content:space-between;border-top:2px solid var(--navy);padding-top:6px;margin-top:6px"><strong>Total Kohler</strong><strong style="color:var(--red)">$3,860/mo</strong></div>
+            </div>
+
+            <h3 style="margin-top:24px">Custom Adjustments</h3>
             <div class="input-row"><label>Custom Expense 1</label><input type="number" id="adj_custom1" value="0" onchange="recalc()"><span class="note"></span></div>
             <div class="input-row"><label>Custom Expense 2</label><input type="number" id="adj_custom2" value="0" onchange="recalc()"><span class="note"></span></div>
         </div>
         <div class="planner-col">
             <h3>Monthly Projection</h3>
             <div class="projection" id="projectionPanel"></div>
+            <div style="margin-top:16px;padding:14px;background:#fff8f0;border-radius:8px;border-left:3px solid var(--orange);font-size:13px;line-height:1.6;color:#333;">
+                <strong style="color:var(--navy)">Gersaw Note:</strong> $10k/mo confirmed for March, April, May 2026. June TBD -- confirming today.
+            </div>
         </div>
     </div>
 </div>
 
-<!-- METRICS -->
-<div class="grid">
-    <div class="card"><h2>Historical Income (14 mo)</h2><div class="metric green">$263,247</div><div class="metric-label">107 deposits, avg $18,803/mo</div></div>
-    <div class="card"><h2>Historical Spending</h2><div class="metric red">$333,205</div><div class="metric-label">1448 expenses, avg $23,800/mo</div></div>
-    <div class="card"><h2>Historical Net</h2><div class="metric red">$-69,958</div><div class="metric-label">Over 14 months</div></div>
-    <div class="card"><h2>Transfers Excluded</h2><div class="metric orange">248</div><div class="metric-label">Internal moves, not counted</div></div>
-</div>
-
 <!-- TABS -->
 <div class="tabs">
-    <div class="tab active" onclick="showTab('overview',this)">Overview</div>
-    <div class="tab" onclick="showTab('categories',this)">Categories</div>
-    <div class="tab" onclick="showTab('business',this)">Business</div>
-    <div class="tab" onclick="showTab('cut',this)">Where to Cut</div>
-    <div class="tab" onclick="showTab('transactions',this)">All Transactions</div>
+    <div class="tab active" onclick="showTab('overview')">Overview</div>
+    <div class="tab" onclick="showTab('categories')">Categories</div>
+    <div class="tab" onclick="showTab('business')">Business</div>
+    <div class="tab" onclick="showTab('cut')">Where to Cut</div>
+    <div class="tab" onclick="showTab('transactions')">All Transactions</div>
 </div>
 
+<!-- OVERVIEW TAB -->
 <div class="tab-content active" id="tab-overview">
-    <div class="grid"><div class="card wide"><h2>Monthly Income vs Expenses</h2><div class="chart-container"><canvas id="trendChart"></canvas></div></div></div>
     <div class="grid">
-        <div class="card"><h2>Spending by Category</h2><div class="chart-container"><canvas id="catChart"></canvas></div></div>
-        <div class="card"><h2>Top 20 Merchants</h2><div class="scroll" style="max-height:300px"><table class="data"><tr><th>#</th><th>Merchant</th><th>Total</th><th>Txns</th></tr><tr><td>1</td><td>WT 251117-164441 BANK OF AMERICA, N</td><td style="color:var(--red)">$40,000</td><td>1</td></tr>
+        <div class="card wide">
+            <h2>Monthly Income vs Expenses</h2>
+            <div class="chart-container"><canvas id="trendChart"></canvas></div>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <h2>Spending by Category</h2>
+            <div class="chart-container chart-sm"><canvas id="catChart"></canvas></div>
+        </div>
+        <div class="card">
+            <h2>Top 20 Merchants</h2>
+            <div class="scroll" style="max-height:320px;">
+                <table class="data">
+                    <tr><th>#</th><th>Merchant</th><th>Total</th><th>Txns</th></tr>
+                    <tr><td>1</td><td>WT 251117-164441 BANK OF AMERICA, N</td><td style="color:var(--red)">$40,000</td><td>1</td></tr>
 <tr><td>2</td><td>TM *DEAD  COMPANY</td><td style="color:var(--red)">$19,038</td><td>1</td></tr>
 <tr><td>3</td><td>CHECK # 1362</td><td style="color:var(--red)">$19,000</td><td>1</td></tr>
 <tr><td>4</td><td>IRS USATAXPYMT 061825 2225569755173</td><td style="color:var(--red)">$17,996</td><td>1</td></tr>
@@ -202,9 +282,18 @@ input:checked + .slider:before { transform: translateX(18px); }
 <tr><td>18</td><td>WF HOME MTG AUTO PAY 053025 XXXXXX4</td><td style="color:var(--red)">$2,803</td><td>1</td></tr>
 <tr><td>19</td><td>WF HOME MTG AUTO PAY 050225 XXXXXX4</td><td style="color:var(--red)">$2,803</td><td>1</td></tr>
 <tr><td>20</td><td>WF HOME MTG AUTO PAY 040425 XXXXXX4</td><td style="color:var(--red)">$2,803</td><td>1</td></tr>
-</table></div></div>
+
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="grid"><div class="card wide"><h2>Monthly Breakdown</h2><div class="scroll"><table class="data"><tr><th>Month</th><th>Income</th><th>Expenses</th><th>Net</th></tr><tr><td>2025-01</td><td style="color:var(--green)">$10,623</td><td style="color:var(--red)">$11,207</td><td style="color:var(--red)">$-584</td></tr>
+    <div class="grid">
+        <div class="card wide">
+            <h2>Monthly Breakdown</h2>
+            <div class="scroll">
+                <table class="data">
+                    <tr><th>Month</th><th>Income</th><th>Expenses</th><th>Net</th></tr>
+                    <tr><td>2025-01</td><td style="color:var(--green)">$10,623</td><td style="color:var(--red)">$11,207</td><td style="color:var(--red)">$-584</td></tr>
 <tr><td>2025-02</td><td style="color:var(--green)">$23,423</td><td style="color:var(--red)">$9,127</td><td style="color:var(--green)">$14,296</td></tr>
 <tr><td>2025-03</td><td style="color:var(--green)">$5,008</td><td style="color:var(--red)">$20,213</td><td style="color:var(--red)">$-15,205</td></tr>
 <tr><td>2025-04</td><td style="color:var(--green)">$11,937</td><td style="color:var(--red)">$12,948</td><td style="color:var(--red)">$-1,011</td></tr>
@@ -218,11 +307,22 @@ input:checked + .slider:before { transform: translateX(18px); }
 <tr><td>2025-12</td><td style="color:var(--green)">$41,335</td><td style="color:var(--red)">$33,709</td><td style="color:var(--green)">$7,626</td></tr>
 <tr><td>2026-01</td><td style="color:var(--green)">$9,273</td><td style="color:var(--red)">$29,132</td><td style="color:var(--red)">$-19,859</td></tr>
 <tr><td>2026-02</td><td style="color:var(--green)">$26,784</td><td style="color:var(--red)">$8,294</td><td style="color:var(--green)">$18,491</td></tr>
-</table></div></div></div>
+
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- CATEGORIES TAB -->
 <div class="tab-content" id="tab-categories">
-    <div class="card wide"><h2>All Spending Categories</h2><div class="scroll"><table class="data"><tr><th>Category</th><th>Total</th><th>Mo Avg</th><th>#</th><th>Avg/Txn</th></tr><tr><td><strong>Checks Written</strong></td><td style="color:var(--red)">$68,901.48</td><td>$4,922</td><td>86</td><td>$801</td></tr>
+    <div class="grid">
+        <div class="card wide">
+            <h2>All Spending Categories (Ranked by Total)</h2>
+            <div class="scroll">
+                <table class="data">
+                    <tr><th>Category</th><th>Total Spent</th><th>Monthly Avg</th><th># Txns</th><th>Avg Per Txn</th></tr>
+                    <tr><td><strong>Checks Written</strong></td><td style="color:var(--red)">$68,901.48</td><td>$4,922</td><td>86</td><td>$801</td></tr>
 <tr><td><strong>Mortgage</strong></td><td style="color:var(--red)">$48,047.94</td><td>$3,432</td><td>14</td><td>$3,432</td></tr>
 <tr><td><strong>Wire Transfer Out</strong></td><td style="color:var(--red)">$40,025.00</td><td>$2,859</td><td>2</td><td>$20,012</td></tr>
 <tr><td><strong>Insurance</strong></td><td style="color:var(--red)">$36,065.23</td><td>$2,576</td><td>37</td><td>$975</td></tr>
@@ -249,11 +349,24 @@ input:checked + .slider:before { transform: translateX(18px); }
 <tr><td><strong>Fees / Interest</strong></td><td style="color:var(--red)">$637.09</td><td>$46</td><td>27</td><td>$24</td></tr>
 <tr><td><strong>Business - PayPal/Fiverr</strong></td><td style="color:var(--red)">$419.22</td><td>$30</td><td>4</td><td>$105</td></tr>
 <tr><td><strong>Internet</strong></td><td style="color:var(--red)">$14.30</td><td>$1</td><td>2</td><td>$7</td></tr>
-<tr style="font-weight:700;border-top:2px solid var(--navy)"><td>TOTAL</td><td style="color:var(--red)">$333,205.29</td><td>$23,800</td><td>1448</td><td></td></tr></table></div></div>
+
+                    <tr style="font-weight:700;border-top:2px solid var(--navy)"><td>TOTAL</td><td style="color:var(--red)">$333,205.29</td><td>$23,800</td><td>1448</td><td></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- BUSINESS TAB -->
 <div class="tab-content" id="tab-business">
-    <div class="card wide"><h2>Business Expenses</h2><div class="scroll"><table class="data"><tr><th>Category</th><th>Total</th><th>Mo Avg</th></tr><tr><td>Wire Transfer Out</td><td style="color:var(--red)">$40,025.00</td><td>$2,859/mo</td></tr>
+    <div class="grid">
+        <div class="card wide">
+            <h2>Business Expenses (via Stafftopia / flagged as business)</h2>
+            <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">Expenses paid through Stafftopia or tagged as business-related (insurance, dental, Kohler salary, etc.)</p>
+            <div class="scroll">
+                <table class="data">
+                    <tr><th>Category</th><th>Total</th><th>Monthly Avg</th></tr>
+                    <tr><td>Wire Transfer Out</td><td style="color:var(--red)">$40,025.00</td><td>$2,859/mo</td></tr>
 <tr><td>Insurance</td><td style="color:var(--red)">$18,712.94</td><td>$1,337/mo</td></tr>
 <tr><td>Checks Written</td><td style="color:var(--red)">$12,602.23</td><td>$900/mo</td></tr>
 <tr><td>Business - Safeway AR</td><td style="color:var(--red)">$3,518.49</td><td>$251/mo</td></tr>
@@ -261,35 +374,70 @@ input:checked + .slider:before { transform: translateX(18px); }
 <tr><td>Other</td><td style="color:var(--red)">$471.94</td><td>$34/mo</td></tr>
 <tr><td>Business - PayPal/Fiverr</td><td style="color:var(--red)">$419.22</td><td>$30/mo</td></tr>
 <tr><td>Subscriptions</td><td style="color:var(--red)">$40.00</td><td>$3/mo</td></tr>
-<tr style="font-weight:700;border-top:2px solid var(--navy)"><td>TOTAL</td><td style="color:var(--red)">$77,032.54</td><td>$5,502/mo</td></tr></table></div></div>
-</div>
 
-<div class="tab-content" id="tab-cut">
-    <div class="card wide">
-        <h2>Where You Can Cut</h2>
-        <div class="cut-item done"><strong>DONE: Mortgage (Lane Ranch)</strong> - Paid off. <span class="savings">Saving $2,803/mo</span></div>
-        <div class="cut-item done"><strong>DONE: Ram 1500 (Westmark)</strong> - Paid off. <span class="savings">Saving ~$500/mo</span></div>
-        <div class="cut-item"><strong>Robinhood ($864 total, ~$250/mo)</strong> - 2-4x/month. Pause or reduce. <span class="savings">Save $150-250/mo</span></div>
-        <div class="cut-item"><strong>Acorns ($287 total, ~$60/mo)</strong> - Pause round-ups. <span class="savings">Save $50/mo</span></div>
-        <div class="cut-item"><strong>Dining Out ($6,510 total, ~$465/mo)</strong> - Cut by half. <span class="savings">Save $232/mo</span></div>
-        <div class="cut-item"><strong>Subscriptions (~$120/mo)</strong> - OpenAI, Claude, Apple, Coinbase, etc. <span class="savings">Save $50-80/mo</span></div>
-        <div class="cut-item"><strong>StorQuest Storage ($106/mo)</strong> - Can you consolidate? <span class="savings">Save $106/mo</span></div>
-        <div class="cut-item"><strong>Amazon ($3,087 total, ~$221/mo)</strong> - 30-day challenge. <span class="savings">Save $110/mo</span></div>
-        <div style="margin-top:14px;padding:14px;background:#d1fae5;border-radius:8px;font-weight:600;color:#065f46;">Already saved: $3,303/mo (mortgage + car). Additional potential: $700-900/mo. Use the Budget Planner above to toggle these off and see exact impact.</div>
+                    <tr style="font-weight:700;border-top:2px solid var(--navy)"><td>TOTAL BUSINESS</td><td style="color:var(--red)">$77,032.54</td><td>$5,502/mo</td></tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- WHERE TO CUT TAB -->
+<div class="tab-content" id="tab-cut">
+    <div class="grid">
+        <div class="card wide">
+            <h2>Where You Can Cut Back</h2>
+            <p style="font-size:14px;color:var(--gray);margin-bottom:16px;">Based on your actual spending data, here are the biggest opportunities:</p>
+
+            <div class="cut-item done"><strong>DONE: Mortgage (Lane Ranch)</strong> - Paid off. <span class="savings">Saving $2,803/mo</span></div>
+            <div class="cut-item done"><strong>DONE: Ram 1500 (Westmark)</strong> - Paid off. <span class="savings">Saving ~$500/mo</span></div>
+            <div class="cut-item done"><strong>DONE: Alma Chiropractic (Kohler)</strong> - Ending. Was ~$5,028 total (~$359/mo). <span class="savings">Saving ~$150/mo</span></div>
+
+            <div class="cut-item">
+                <strong>Robinhood ($864 total, ~$250/mo)</strong> - Investing 2-4x/month. Consider pausing or reducing to 1x/month.<br>
+                <span class="savings">Potential savings: $150-250/mo</span>
+            </div>
+            <div class="cut-item">
+                <strong>Acorns ($287 total, ~$60/mo)</strong> - Micro-investments adding up. Consider pausing round-ups.<br>
+                <span class="savings">Potential savings: $50-80/mo</span>
+            </div>
+            <div class="cut-item">
+                <strong>Dining Out ($6,510 total, ~$465/mo)</strong> - Restaurants, coffee shops across all cards. Cutting by half saves significantly.<br>
+                <span class="savings">Potential savings: $232/mo</span>
+            </div>
+            <div class="cut-item">
+                <strong>Subscriptions (~$120/mo)</strong> - OpenAI, Claude, Apple, Coinbase, Acorns, Pearson, Quillbot, IKON Pass, etc. Audit and cut unused ones.<br>
+                <span class="savings">Potential savings: $50-100/mo</span>
+            </div>
+            <div class="cut-item">
+                <strong>StorQuest Storage ($106/mo on card 1870)</strong> - Monthly storage unit. Can you consolidate or eliminate?<br>
+                <span class="savings">Potential savings: $106/mo</span>
+            </div>
+            <div class="cut-item">
+                <strong>Amazon/Online Shopping ($3,087 total, ~$221/mo)</strong> - Consistent spending. Consider a 30-day "no Amazon" challenge.<br>
+                <span class="savings">Potential savings: $110/mo</span>
+            </div>
+
+            <div style="margin-top:20px;padding:16px;background:#d1fae5;border-radius:8px;font-weight:600;color:#065f46;font-size:15px;">
+                Already eliminated: $3,453/mo (mortgage + car + Alma). Additional potential: $700-900/mo.
+                Use the Budget Planner above to toggle these off and see your exact monthly projection.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSACTIONS TAB -->
 <div class="tab-content" id="tab-transactions">
     <div class="card wide">
         <h2>All 1803 Transactions</h2>
-        <input type="text" class="search-sm" id="txnSearch" placeholder="Filter transactions...">
-        <div class="filter-row" id="typeFilters">
+        <input type="text" class="search-sm" id="txnSearch" placeholder="Filter transactions... type anything">
+        <div class="filter-row">
             <button class="fbtn active" onclick="filterTxn('all',this)">All (1803)</button>
             <button class="fbtn" onclick="filterTxn('expense',this)">Expenses (1448)</button>
             <button class="fbtn" onclick="filterTxn('income',this)">Income (107)</button>
             <button class="fbtn" onclick="filterTxn('transfer',this)">Transfers (248)</button>
         </div>
-        <div class="filter-row" id="acctFilters">
+        <div class="acct-filter">
             <button class="fbtn active" onclick="filterAcct('all',this)">All Accounts</button>
             <button class="fbtn" onclick="filterAcct('WF Personal (4243)',this)">WF Checking</button>
             <button class="fbtn" onclick="filterAcct('Stafftopia Biz (9713)',this)">Stafftopia</button>
@@ -297,8 +445,13 @@ input:checked + .slider:before { transform: translateX(18px); }
             <button class="fbtn" onclick="filterAcct('CapOne 1870 (Kohler)',this)">Card 1870</button>
             <button class="fbtn" onclick="filterAcct('CapOne 1471',this)">Card 1471</button>
         </div>
-        <div class="scroll" style="max-height:600px"><table class="data"><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th>Account</th><th>Type</th></tr></thead><tbody id="txnBody"></tbody></table></div>
-        <div id="txnCount" style="margin-top:6px;font-size:11px;color:var(--gray)"></div>
+        <div class="scroll" style="max-height:600px;">
+            <table class="data">
+                <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th>Account</th><th>Type</th></tr></thead>
+                <tbody id="txnBody"></tbody>
+            </table>
+        </div>
+        <div id="txnCount" style="margin-top:8px;font-size:12px;color:var(--gray);"></div>
     </div>
 </div>
 
@@ -309,17 +462,17 @@ const T=[{"d": "2026-02-26", "a": -3.89, "desc": "STARBUCKS TERM C RSW", "cat": 
 const CS=[{"cat": "Checks Written", "total": 68901.48, "count": 86}, {"cat": "Mortgage", "total": 48047.94, "count": 14}, {"cat": "Wire Transfer Out", "total": 40025.0, "count": 2}, {"cat": "Insurance", "total": 36065.23, "count": 37}, {"cat": "Entertainment", "total": 27273.71, "count": 11}, {"cat": "Taxes (IRS)", "total": 21205.58, "count": 6}, {"cat": "Venmo Payments Out", "total": 14772.71, "count": 36}, {"cat": "Groceries / Household", "total": 11470.36, "count": 144}, {"cat": "Healthcare / Medical", "total": 11184.31, "count": 92}, {"cat": "Travel / Transport", "total": 7379.02, "count": 81}, {"cat": "Gas / Auto", "total": 6607.02, "count": 175}, {"cat": "Dining Out", "total": 6509.75, "count": 248}, {"cat": "Utilities", "total": 5330.12, "count": 53}, {"cat": "Merchandise", "total": 3530.49, "count": 67}, {"cat": "Business - Safeway AR", "total": 3518.49, "count": 13}, {"cat": "Amazon / Online Shopping", "total": 3087.07, "count": 89}, {"cat": "ATM / Cash", "total": 3020.3, "count": 9}, {"cat": "Subscriptions", "total": 2854.27, "count": 139}, {"cat": "Home Improvement", "total": 2506.29, "count": 39}, {"cat": "Other", "total": 2496.81, "count": 14}, {"cat": "Other Services", "total": 2404.27, "count": 22}, {"cat": "Money Transfers (Intl)", "total": 1751.0, "count": 16}, {"cat": "Professional Services", "total": 1399.18, "count": 9}, {"cat": "Pets", "total": 794.28, "count": 13}, {"cat": "Fees / Interest", "total": 637.09, "count": 27}, {"cat": "Business - PayPal/Fiverr", "total": 419.22, "count": 4}, {"cat": "Internet", "total": 14.3, "count": 2}];
 const MO=[{"month": "2025-01", "income": 10623.07, "expense": 11206.95}, {"month": "2025-02", "income": 23423.07, "expense": 9126.77}, {"month": "2025-03", "income": 5008.09, "expense": 20212.68}, {"month": "2025-04", "income": 11937.08, "expense": 12948.05}, {"month": "2025-05", "income": 24384.98, "expense": 39576.97}, {"month": "2025-06", "income": 9040.11, "expense": 41153.05}, {"month": "2025-07", "income": 10630.9, "expense": 14227.66}, {"month": "2025-08", "income": 27903.64, "expense": 27896.89}, {"month": "2025-09", "income": 26172.6, "expense": 16206.95}, {"month": "2025-10", "income": 31058.22, "expense": 12584.98}, {"month": "2025-11", "income": 5673.05, "expense": 56929.48}, {"month": "2025-12", "income": 41334.8, "expense": 33708.92}, {"month": "2026-01", "income": 9273.17, "expense": 29132.37}, {"month": "2026-02", "income": 26784.42, "expense": 8293.57}];
 
+// BUDGET PLANNER
 function recalc(){
     const items=[
-        ['mortgage',2803],['carpay',500],['insurance',2000],['bluecross',1751],
-        ['dental',104],['petins',85],['utilities',381],['kohler',1000],
+        ['mortgage',2803],['carpay',500],['alma',150],['insurance',2000],['bluecross',1751],
+        ['dental',104],['petins',85],['utilities',381],['kohlerrent',860],['kohler',1000],
         ['kohlercc',2000],['storage',106],['robinhood',250],['acorns',60],
         ['subs',120],['groceries',819],['dining',465],['gas',472],
         ['medical',799],['pets',57]
     ];
     let exp=0;
     items.forEach(([id,amt])=>{const el=document.getElementById('tog_'+id);if(el&&el.checked)exp+=amt;});
-    exp+=(parseFloat(document.getElementById('adj_rent').value)||0);
     exp+=(parseFloat(document.getElementById('adj_custom1').value)||0);
     exp+=(parseFloat(document.getElementById('adj_custom2').value)||0);
     let inc=0;
@@ -330,20 +483,22 @@ function recalc(){
         <div class="proj-row"><span>Monthly Income</span><span class="val green">$${inc.toLocaleString()}</span></div>
         <div class="proj-row"><span>Monthly Expenses</span><span class="val red">$${exp.toLocaleString()}</span></div>
         <div class="proj-row total"><span>MONTHLY NET</span><span class="val ${net>=0?'green':'red'}">$${net.toLocaleString()}</span></div>
-        <div style="margin-top:12px;font-size:12px;color:#8899aa;">
-            Annual: $${(net*12).toLocaleString()}/yr<br>
-            ${net>=0?'Cash-flow positive!':'Spending exceeds income. Toggle off expenses or increase income.'}
+        <div style="margin-top:14px;font-size:13px;color:#8899aa;">
+            Annual projection: $${(net*12).toLocaleString()}/yr<br>
+            ${net>=0?'Cash-flow positive -- looking good.':'Spending exceeds income. Toggle off expenses or increase income above.'}
         </div>`;
 }
 
-function showTab(name,el){
-    document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+// TABS
+function showTab(name){
+    document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
     document.getElementById('tab-'+name).classList.add('active');
-    el.classList.add('active');
+    event.target.classList.add('active');
     if(name==='transactions')renderTxnTable();
 }
 
+// QUERY
 document.getElementById('queryInput').addEventListener('keydown',e=>{if(e.key==='Enter')runQuery();});
 function doQuery(q){document.getElementById('queryInput').value=q;runQuery();}
 
@@ -357,20 +512,21 @@ function runQuery(){
     const incs=real.filter(t=>t.a>0);
     const spent=exps.reduce((s,t)=>s+Math.abs(t.a),0);
     const recv=incs.reduce((s,t)=>s+t.a,0);
-    if(!m.length){r.innerHTML='<h3>No results for "'+q+'"</h3><p>Not found across '+T.length+' transactions in all 5 accounts. May have been paid cash or under a different name.</p>';return;}
+    if(!m.length){r.innerHTML='<h3>No results found</h3><p>No transactions match "<strong>'+q+'</strong>" across any of your 5 accounts (1803 transactions). May have been paid cash or under a different merchant name.</p>';return;}
     let h='<h3>'+m.length+' transactions matching "'+q+'"</h3>';
     if(spent>0)h+='<div class="amount red">$'+spent.toLocaleString('en-US',{minimumFractionDigits:2})+' spent</div>';
     if(recv>0)h+='<div class="amount green">$'+recv.toLocaleString('en-US',{minimumFractionDigits:2})+' received</div>';
-    if(exps.length>3){const bm={};exps.forEach(t=>{const mo=t.d.slice(0,7);bm[mo]=(bm[mo]||0)+Math.abs(t.a);});h+='<p style="margin-top:6px"><strong>Monthly:</strong> ';Object.keys(bm).sort().forEach(mo=>{h+=mo+': $'+bm[mo].toLocaleString('en-US',{maximumFractionDigits:0})+' | ';});h+='</p>';}
+    if(exps.length>3){const bm={};exps.forEach(t=>{const mo=t.d.slice(0,7);bm[mo]=(bm[mo]||0)+Math.abs(t.a);});h+='<p style="margin-top:8px"><strong>Monthly:</strong> ';Object.keys(bm).sort().forEach(mo=>{h+=mo+': $'+bm[mo].toLocaleString('en-US',{maximumFractionDigits:0})+' &nbsp;|&nbsp; ';});h+='</p>';}
     h+='<table><tr><th>Date</th><th>Description</th><th>Amount</th><th>Account</th></tr>';
     m.slice(0,50).forEach(t=>{const c=t.a>0?'var(--green)':t.typ==='transfer'?'var(--gray)':'var(--red)';h+='<tr><td>'+t.d+'</td><td>'+t.desc.slice(0,50)+'</td><td style="color:'+c+'">$'+t.a.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+t.acct+'</td></tr>';});
     if(m.length>50)h+='<tr><td colspan="4" style="color:var(--gray)">...and '+(m.length-50)+' more</td></tr>';
     h+='</table>';r.innerHTML=h;
 }
 
+// TRANSACTION TABLE
 let txnTF='all',txnAF='all',txnST='';
-function filterTxn(t,el){txnTF=t;document.querySelectorAll('#typeFilters .fbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTxnTable();}
-function filterAcct(a,el){txnAF=a;document.querySelectorAll('#acctFilters .fbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTxnTable();}
+function filterTxn(t,el){txnTF=t;document.querySelectorAll('.filter-row .fbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTxnTable();}
+function filterAcct(a,el){txnAF=a;document.querySelectorAll('.acct-filter .fbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderTxnTable();}
 document.getElementById('txnSearch').addEventListener('input',function(){txnST=this.value.toLowerCase();renderTxnTable();});
 
 function renderTxnTable(){
@@ -385,16 +541,20 @@ function renderTxnTable(){
     tb.innerHTML=s.map(t=>{
         const c=t.a>0?'var(--green)':t.typ==='transfer'?'var(--gray)':'var(--red)';
         const tag=t.typ==='income'?'<span class="tag tag-income">Income</span>':t.typ==='transfer'?'<span class="tag tag-transfer">Transfer</span>':t.biz?'<span class="tag tag-biz">Business</span>':'<span class="tag tag-expense">Personal</span>';
-        return '<tr><td>'+t.d+'</td><td>'+t.desc.slice(0,55)+'</td><td style="color:'+c+';font-weight:600">$'+t.a.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+t.cat+'</td><td style="font-size:10px">'+t.acct+'</td><td>'+tag+'</td></tr>';
+        return '<tr><td>'+t.d+'</td><td>'+t.desc.slice(0,55)+'</td><td style="color:'+c+';font-weight:600">$'+t.a.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+t.cat+'</td><td style="font-size:11px">'+t.acct+'</td><td>'+tag+'</td></tr>';
     }).join('');
-    document.getElementById('txnCount').textContent='Showing '+s.length+' of '+f.length;
+    document.getElementById('txnCount').textContent='Showing '+s.length+' of '+f.length+' transactions';
 }
 
+// CHARTS
 new Chart(document.getElementById('trendChart'),{type:'bar',data:{labels:MO.map(m=>m.month),datasets:[{label:'Income',data:MO.map(m=>m.income),backgroundColor:'#27ae60'},{label:'Expenses',data:MO.map(m=>m.expense),backgroundColor:'#e74c3c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'k'}}}}});
-const cc=['#1a2744','#f5922f','#e74c3c','#27ae60','#3498db','#9b59b6','#1abc9c','#e67e22','#2c3e50','#f39c12','#d35400','#c0392b'];
-new Chart(document.getElementById('catChart'),{type:'doughnut',data:{labels:CS.slice(0,12).map(c=>c.cat),datasets:[{data:CS.slice(0,12).map(c=>c.total),backgroundColor:cc}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10}}}}});
+const cc=['#1a2744','#f5922f','#e74c3c','#27ae60','#3498db','#9b59b6','#1abc9c','#e67e22','#2c3e50','#f39c12','#d35400','#c0392b','#8e44ad','#16a085','#7f8c8d','#2980b9','#34495e','#e74c3c','#1a2744','#f5922f'];
+const topCats=CS.slice(0,12);
+new Chart(document.getElementById('catChart'),{type:'doughnut',data:{labels:topCats.map(c=>c.cat),datasets:[{data:topCats.map(c=>c.total),backgroundColor:cc}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},boxWidth:12}}}}});
 
-recalc();renderTxnTable();
+// Init
+recalc();
+renderTxnTable();
 </script>
 </body>
 </html>
